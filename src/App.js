@@ -1,25 +1,51 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from 'react';
+import SearchForm from './components/SearchForm';
+import TrackList from './components/TrackList';
+
+import { clientId } from './helpers/api-key';
 
 class App extends Component {
+  state = {
+    tracks: [],
+    searchValue: ''
+  }
+
+  searchTrack = (e) => {
+    const value = e.target.value
+    this.setState({
+      searchValue: value
+    });
+  }
+
+  fetchTracks = (event) => {
+    event.preventDefault();
+    fetch(`//api.soundcloud.com/tracks/${clientId}&q="${this.state.searchValue}`)
+      .then(response => response.json())
+      .then((data) => {
+        if (data.length > 0) {
+          this.setState({
+            tracks: data
+          });
+        } else {
+          this.setState({
+            tracks: false
+          })
+        }
+      })
+      .catch(err => {
+        console.log("Error Reading data " + err);
+      });
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="main-page">
+        <Fragment>
+          <SearchForm fetchTracks={this.fetchTracks} searchTrack={this.searchTrack} />
+        </Fragment>
+        <Fragment>
+          <TrackList tracks={this.state.tracks} />
+        </Fragment>
       </div>
     );
   }
