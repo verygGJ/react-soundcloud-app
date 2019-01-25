@@ -1,53 +1,24 @@
-import React, { Component, Fragment } from 'react';
-import SearchForm from './components/SearchForm';
-import TrackList from './components/TrackList';
+import React from 'react';
 
-import { clientId } from './helpers/api-key';
+import Header from './components/Header';
+import Playlist from './components/playlist/index';
+import MainPage from './components/home/index';
 
-class App extends Component {
-  state = {
-    tracks: [],
-    searchValue: ''
-  }
+import { Route, Switch } from 'react-router-dom';
 
-  searchTrack = (e) => {
-    const value = e.target.value
-    this.setState({
-      searchValue: value
-    });
-  }
-
-  fetchTracks = (event) => {
-    event.preventDefault();
-    fetch(`//api.soundcloud.com/tracks/${clientId}&q="${this.state.searchValue}`)
-      .then(response => response.json())
-      .then((data) => {
-        if (data.length > 0) {
-          this.setState({
-            tracks: data
-          });
-        } else {
-          this.setState({
-            tracks: false
-          })
-        }
-      })
-      .catch(err => {
-        console.log("Error Reading data " + err);
-      });
-  }
-
+class App extends React.Component {
   render() {
     return (
-      <div className="main-page">
-        <Fragment>
-          <SearchForm fetchTracks={this.fetchTracks} searchTrack={this.searchTrack} />
-        </Fragment>
-        <Fragment>
-          <TrackList tracks={this.state.tracks} />
-        </Fragment>
+      <div className="container">
+        <React.Fragment>
+          <Header />
+        </React.Fragment>
+        <Switch>
+          <Route exact path='/' component={MainPage}/>
+          <Route path='/playlist' component={Playlist} />
+        </Switch>
       </div>
-    );
+    )
   }
 }
 
