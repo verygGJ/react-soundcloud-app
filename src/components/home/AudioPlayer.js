@@ -3,6 +3,7 @@ import React from 'react';
 import PlayButton from '../../components/ui/PlayButton';
 import PrevButton from '../../components/ui/PrevButton';
 import NextButton from '../../components/ui/NextButton';
+import PauseButton from '../../components/ui/PauseButton';
 
 class AudioPlayer extends React.Component {
   render() {
@@ -19,7 +20,11 @@ class AudioPlayer extends React.Component {
           <div className="track-item__player">
             <audio ref={this.props.playerRef} className="track-item__audio" src={this.props.playingTrackUrl} onEnded={this.props.playNextTrack} controls />    
             <React.Fragment>
-              <PlayButton togglePlay={this.props.togglePlay} />
+              {
+                this.props.isPlaying ? 
+                <PlayButton togglePlay={this.props.togglePlay} /> :
+                <PauseButton togglePlay={this.props.togglePlay} />
+              }
             </React.Fragment>
             <React.Fragment>
               <PrevButton playPrevTrack={this.props.playPrevTrack} />

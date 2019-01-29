@@ -104,6 +104,7 @@ class TrackList extends React.Component {
           togglePlay={this.togglePlay}
           playNextTrack={this.playNextTrack}
           playPrevTrack={this.playPrevTrack}
+          isPlaying={this.state.isPlaying}
         />
         <div className="tracks">
           {tracks.map((track, id) => (

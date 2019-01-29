@@ -3,6 +3,8 @@ import React from 'react';
 import Header from './components/Header';
 import Playlist from './components/playlist/index';
 import MainPage from './components/home/index';
+import Login from './components/login/index';
+import Registration from './components/registration/index';
 
 import { Route, Switch } from 'react-router-dom';
 
@@ -16,6 +18,10 @@ class App extends React.Component {
         <Switch>
           <Route exact path='/' component={MainPage}/>
           <Route path='/playlist' component={Playlist} />
+          <Switch>
+            <Route exact path='/login' component={Login} />
+            <Route path='/registration' component={Registration} />
+          </Switch>
         </Switch>
       </div>
     )

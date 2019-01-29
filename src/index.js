@@ -10,7 +10,17 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from './store/reducers';
 
-const store = createStore(rootReducer);
+import { LoginUsersState } from './store/store';
+
+
+const persistedState = localStorage.getItem('reduxState') ? JSON.parse(localStorage.getItem('reduxState')) : {}
+
+const store = createStore(rootReducer, persistedState);
+
+store.subscribe(()=>{
+  localStorage.setItem('reduxState', JSON.stringify(store.getState(LoginUsersState)))
+})
+
 
 ReactDOM.render(
   <Provider store={store}>

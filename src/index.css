@@ -15,6 +15,11 @@ code {
     monospace;
 }
 
+.container {
+  min-height: 100vh;
+  overflow: hidden;
+}
+
 .main-page {
   max-width: 1140px;
   width: 100%;
@@ -171,6 +176,21 @@ code {
   margin: 0 auto;
 }
 
+.play-pause-btn,
+.play-prev-btn,
+.play-prev-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.play-pause-btn svg,
+.play-prev-btn svg,
+.play-prev-btn svg {
+  width: 16px;
+  height: 14px;
+}
+
 .header {
   padding: 30px 0;
 }
@@ -206,4 +226,52 @@ code {
 
 .main-nav__item a:hover {
   color: green;
+}
+
+.area-page {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.area-user__title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.user-name {
+  text-transform: uppercase;
+  color: green;
+}
+
+.area-user {
+  max-width: 400px;
+  width: 100%;
+  margin: 100px auto 0;
+}
+
+.area-user__text {
+  text-align: center;
+  font-weight: 500;
+  margin: 0 auto 20px;
+}
+
+.area-user__text a {
+  color: green;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.logout-text {
+  text-align: center;
+  font-weight: 500;
+}
+
+.logout {
+  color: red;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: bold;
 }
