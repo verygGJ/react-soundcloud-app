@@ -7,7 +7,9 @@ import { clientId } from '../../helpers/api-key';
 class MainPage extends Component {
   state = {
     tracks: [],
-    searchValue: ''
+    searchValue: '',
+    isAdded: false,
+    hideElement: false
   }
 
   searchTrack = (e) => {
@@ -44,7 +46,7 @@ class MainPage extends Component {
           <SearchForm fetchTracks={this.fetchTracks} searchTrack={this.searchTrack} />
         </Fragment>
         <Fragment>
-          <TrackList tracks={this.state.tracks} />
+          <TrackList isAdded={this.state.isAdded} tracks={this.state.tracks} />
         </Fragment>
       </div>
     );

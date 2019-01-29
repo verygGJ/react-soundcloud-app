@@ -176,6 +176,10 @@ code {
   margin: 0 auto;
 }
 
+.playlist-page .track-item.hide {
+  display: none;
+}
+
 .play-pause-btn,
 .play-prev-btn,
 .play-prev-btn {

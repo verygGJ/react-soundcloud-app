@@ -75,7 +75,6 @@ class TrackList extends React.Component {
     let newIndex;
     if ((this.state.selectedIndex - 1) < 0) {
       newIndex = lengTracks - 1
-      console.log(newIndex)
     } else {
       newIndex = this.state.selectedIndex - 1;
     }
@@ -87,6 +86,10 @@ class TrackList extends React.Component {
     })
     this.setState({ playingTrackUrl: this.state.playingTracks[newIndex].stream_url + clientId }, () => this.playerElemnt.play());
     this.setState({ selectedIndex: newIndex })
+  }
+
+  repeteTrack = () => {
+    this.playerElemnt.play()
   }
 
   render() {
@@ -105,10 +108,16 @@ class TrackList extends React.Component {
           playNextTrack={this.playNextTrack}
           playPrevTrack={this.playPrevTrack}
           isPlaying={this.state.isPlaying}
+          repeteTrack={this.repeteTrack}
         />
         <div className="tracks">
           {tracks.map((track, id) => (
-            <TrackItem track={track} key={id} addCurrentTrack={this.addCurrentTrack} />
+            <TrackItem 
+              isAdded={this.props.isAdded} 
+              track={track} 
+              key={id} 
+              addCurrentTrack={this.addCurrentTrack} 
+            />
           ))}
         </div>
       </Fragment>

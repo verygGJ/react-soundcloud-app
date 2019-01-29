@@ -10,6 +10,21 @@ export function PlaylistState(state = initialState, action) {
         ...state,
         myPlayListTracks: newArr
       }
+
+    case 'REMOVE_IN_PLAYLIST':
+      let deletedTrack;
+      state.myPlayListTracks.forEach(track => {
+        if (track === action.payload) {
+          deletedTrack = track
+          return deletedTrack
+        } 
+      })
+
+      state.myPlayListTracks.splice(state.myPlayListTracks.indexOf(deletedTrack),1)
+      return {
+        ...state
+      }
+
     default:
       return state;
   }

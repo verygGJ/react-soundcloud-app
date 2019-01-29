@@ -1,10 +1,12 @@
 import React from 'react';
 import TrackList from "../home/TrackList";
 
-
 import { connect } from "react-redux";
 
 class Playlist extends React.Component {
+  state = {
+    isAdded: true,
+  }
 
   render() {
 
@@ -13,7 +15,10 @@ class Playlist extends React.Component {
     return (
       <div className="playlist-page">
         <React.Fragment>
-          <TrackList tracks={this.props.myPlayListTracks} />
+          <TrackList 
+            isAdded={this.state.isAdded} 
+            tracks={this.props.myPlayListTracks} 
+          />
         </React.Fragment>
       </div>
     )

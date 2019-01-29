@@ -32,6 +32,9 @@ class AudioPlayer extends React.Component {
             <React.Fragment>
               <NextButton playNextTrack={this.props.playNextTrack} />
             </React.Fragment>
+            <React.Fragment>
+              <button repeteTrack={this.props.repeteTrack} className="">REPET</button>
+            </React.Fragment>
           </div>
         </div>
       </div>
