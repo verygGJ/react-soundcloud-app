@@ -10,6 +10,7 @@ class TrackList extends React.Component {
     playingTrackTitle: '',
     playingTrackCover: '', 
     isPlaying: false,
+    isRepeat: false,
     playingTracks: this.props.tracks,
     selectedIndex: 0
   }
@@ -88,9 +89,16 @@ class TrackList extends React.Component {
     this.setState({ selectedIndex: newIndex })
   }
 
-  repeteTrack = () => {
-    this.playerElemnt.play()
+  repeateTrackState = () => {
+    this.setState({ isRepeat: !this.state.isRepeat })
   }
+
+  repeateTrack = () => {
+    if (this.state.isRepeat) {
+      this.playerElemnt.play()
+    }
+  }
+
 
   render() {
     const {tracks} = this.props;
@@ -108,7 +116,15 @@ class TrackList extends React.Component {
           playNextTrack={this.playNextTrack}
           playPrevTrack={this.playPrevTrack}
           isPlaying={this.state.isPlaying}
-          repeteTrack={this.repeteTrack}
+          repeateTrackState={this.repeateTrackState}
+          repeateTrack={this.repeateTrack}
+          isRepeat={this.state.isRepeat}
+          mouseMove={this.mouseMove}
+          mouseDown={this.mouseDown}
+          timelineRef={(timeline) => { this.timeline = timeline }}
+          handleRef={(handle) => { this.handle = handle }}
+          volumeUp={this.volumeUp}
+          volumeDown={this.volumeDown}
         />
         <div className="tracks">
           {tracks.map((track, id) => (
@@ -123,6 +139,58 @@ class TrackList extends React.Component {
       </Fragment>
     )
   }
+
+  componentDidUpdate() {
+    if (this.playerElemnt) {
+      this.playerElemnt.addEventListener("timeupdate", () => {
+        let ratio = this.playerElemnt ? this.playerElemnt.currentTime / this.playerElemnt.duration : 0
+        let position = this.playerElemnt ? (this.timeline.offsetWidth * ratio) + this.timeline.offsetLeft : 0
+        this.positionHandle(position);
+      });
+    }
+  };
+
+  mouseMove = (e) => {
+    this.positionHandle(e.pageX);
+    this.playerElemnt.currentTime = (((e.pageX + 335) - this.timeline.offsetLeft) / this.timeline.offsetWidth) * this.playerElemnt.duration;
+  };
+
+  mouseUp = (e) => {
+    window.removeEventListener('mousemove', this.mouseMove);
+    window.removeEventListener('mouseup', this.mouseUp);
+  };
+
+  mouseDown = (e) => {
+    window.addEventListener('mousemove', this.mouseMove);
+    window.addEventListener('mouseup', this.mouseUp);
+  };
+
+  positionHandle = (position) => {
+    if (this.playerElemnt) {
+      let handleLeft = position - this.timeline.offsetLeft;
+      if (handleLeft >= 0) {
+        this.handle.style.width = handleLeft + "px";
+      }
+      if (handleLeft < 0) {
+        this.handle.style.width = "0px";
+      }
+    }
+  }
+
+  volumeUp = () => {
+    let currentVolume = this.playerElemnt.volume
+    if ( this.playerElemnt.volume < 1.0 && this.playerElemnt.volume !== 1.0 ) {
+      this.playerElemnt.volume = currentVolume + 0.1
+    }
+  }
+
+  volumeDown = () => {
+    let currentVolume = this.playerElemnt.volume
+    if ( this.playerElemnt.volume >= 0.1 ) {
+      this.playerElemnt.volume = currentVolume - 0.1
+    }
+  }
+
 }
 
 export default TrackList;

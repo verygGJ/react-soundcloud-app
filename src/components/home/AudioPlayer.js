@@ -4,8 +4,40 @@ import PlayButton from '../../components/ui/PlayButton';
 import PrevButton from '../../components/ui/PrevButton';
 import NextButton from '../../components/ui/NextButton';
 import PauseButton from '../../components/ui/PauseButton';
+import RepeatButton from '../../components/ui/RepeatButton';
+import VolumeUp from '../ui/VolumeUp';
+import VolumeDown from '../../components/ui/VolumeDown';
 
 class AudioPlayer extends React.Component {
+
+  repeateSingleTrack = () => {
+    this.props.repeateTrackState();
+  }
+
+  autoPlayTracks = () => {
+    if (!this.props.isRepeat) {
+      this.props.playNextTrack();
+    }  else {
+      this.props.repeateTrack()
+    }
+  }
+
+  handleMouseMove = (e) => {
+    this.props.mouseMove(e)
+  }
+
+  handleMouseDown = (e) => {
+    this.props.mouseDown(e)
+  }
+
+  handelVolumeUp = () => {
+    this.props.volumeUp()
+  }
+
+  handelVolumeDown = () => {
+    this.props.volumeDown()
+  }
+
   render() {
 
     if (this.props.playingTrackUrl === '' && this.props.playingTrackTitle === '' && this.props.playingTrackCover === '' ) return null
@@ -18,23 +50,49 @@ class AudioPlayer extends React.Component {
         <div className="tracks-player__info">
           <div className="tracks-player__title">{this.props.playingTrackTitle}</div>
           <div className="track-item__player">
-            <audio ref={this.props.playerRef} className="track-item__audio" src={this.props.playingTrackUrl} onEnded={this.props.playNextTrack} controls />    
-            <React.Fragment>
-              {
-                this.props.isPlaying ? 
-                <PlayButton togglePlay={this.props.togglePlay} /> :
-                <PauseButton togglePlay={this.props.togglePlay} />
-              }
-            </React.Fragment>
-            <React.Fragment>
-              <PrevButton playPrevTrack={this.props.playPrevTrack} />
-            </React.Fragment>
-            <React.Fragment>
-              <NextButton playNextTrack={this.props.playNextTrack} />
-            </React.Fragment>
-            <React.Fragment>
-              <button repeteTrack={this.props.repeteTrack} className="">REPET</button>
-            </React.Fragment>
+           
+            <div className="tracks-player__options">
+              <div className="tracks-player__buttons">
+                <React.Fragment>
+                  {!this.props.isPlaying ? 
+                    <PlayButton togglePlay={this.props.togglePlay} /> :
+                    <PauseButton togglePlay={this.props.togglePlay} />
+                  }
+                </React.Fragment>
+                <React.Fragment>
+                  <PrevButton playPrevTrack={this.props.playPrevTrack} />
+                </React.Fragment>
+                <React.Fragment>
+                  <NextButton playNextTrack={this.props.playNextTrack} />
+                </React.Fragment>
+                <React.Fragment>
+                  <RepeatButton 
+                    repeateSingleTrack={this.repeateSingleTrack} 
+                    isRepeat={this.props.isRepeat}
+                  />
+                </React.Fragment>
+              </div>
+              <div className="tracks-player__volume">
+                <React.Fragment>
+                  <VolumeDown  handelVolumeDown={this.handelVolumeDown} />
+                </React.Fragment>
+                <React.Fragment>
+                  <VolumeUp handelVolumeUp={this.handelVolumeUp} />
+                </React.Fragment>
+              </div>
+            </div>
+
+            <div id="timeline" onClick={this.handleMouseMove} ref={this.props.timelineRef}>
+              <div id="handle" onMouseDown={this.handleMouseDown}  ref={this.props.handleRef}/>
+            </div>
+
+            <audio 
+              className="track-item__audio" 
+              ref={this.props.playerRef} 
+              src={this.props.playingTrackUrl} 
+              onEnded={this.autoPlayTracks} 
+              controls 
+            />     
           </div>
         </div>
       </div>

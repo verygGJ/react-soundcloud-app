@@ -13,7 +13,7 @@ class Header extends React.Component {
     const { isLoginState } = this.props;
 
     let showPlaylistLink = isLoginState ? <Link to="/playlist">Playlist</Link> : null;
-    let areaText = isLoginState ? 'Area' : 'Login';
+    let areaText = isLoginState ? 'Profile' : 'Login';
 
     return (
       <header className="header">
