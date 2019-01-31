@@ -12,7 +12,8 @@ class TrackList extends React.Component {
     isPlaying: false,
     isRepeat: false,
     playingTracks: this.props.tracks,
-    selectedIndex: 0
+    selectedIndex: 0,
+    currentVolume: '1.0'
   }
 
   addCurrentTrack = (tracksInfo) => {
@@ -125,6 +126,7 @@ class TrackList extends React.Component {
           handleRef={(handle) => { this.handle = handle }}
           volumeUp={this.volumeUp}
           volumeDown={this.volumeDown}
+          currentVolume={this.state.currentVolume}
         />
         <div className="tracks">
           {tracks.map((track, id) => (
@@ -152,7 +154,7 @@ class TrackList extends React.Component {
 
   mouseMove = (e) => {
     this.positionHandle(e.pageX);
-    this.playerElemnt.currentTime = (((e.pageX + 335) - this.timeline.offsetLeft) / this.timeline.offsetWidth) * this.playerElemnt.duration;
+    this.playerElemnt.currentTime = ((e.pageX - this.timeline.offsetLeft) / this.timeline.offsetWidth) * this.playerElemnt.duration;
   };
 
   mouseUp = (e) => {
@@ -178,17 +180,17 @@ class TrackList extends React.Component {
   }
 
   volumeUp = () => {
-    let currentVolume = this.playerElemnt.volume
     if ( this.playerElemnt.volume < 1.0 && this.playerElemnt.volume !== 1.0 ) {
-      this.playerElemnt.volume = currentVolume + 0.1
+      this.playerElemnt.volume = this.playerElemnt.volume + 0.1
     }
+    this.setState({ currentVolume: this.playerElemnt.volume.toFixed(1) })
   }
 
   volumeDown = () => {
-    let currentVolume = this.playerElemnt.volume
     if ( this.playerElemnt.volume >= 0.1 ) {
-      this.playerElemnt.volume = currentVolume - 0.1
+      this.playerElemnt.volume  = this.playerElemnt.volume  - 0.1
     }
+    this.setState({ currentVolume: this.playerElemnt.volume.toFixed(1) })
   }
 
 }

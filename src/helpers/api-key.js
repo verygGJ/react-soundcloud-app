@@ -1,1 +1,1 @@
-export const clientId = '?client_id=095fe1dcd09eb3d0e1d3d89c76f5618f';
+export const clientId = '?client_id=d02c42795f3bcac39f84eee0ae384b00&limit=50';

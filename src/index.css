@@ -71,6 +71,15 @@ code {
   opacity: 0.7;
 }
 
+.tracks-player__wrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9;
+  background: #000;
+}
+
 .tracks-player {
   margin: 0 auto 30px;
   box-shadow: 0px 5px 24px rgba(0, 0, 0, 0.1);
@@ -78,16 +87,11 @@ code {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  position: fixed;
-  bottom: 0;
-  left: 50%;
   background: #000;
-  max-width: 35%;
+  max-width: 675px;
   width: 100%;
-  margin: 0;
-  padding: 10px 50%;
-  transform: translateX(-50%);
-  z-index: 9;
+  margin: 0 auto;
+  padding: 10px 50px;
 }
 
 .tracks-player__info {
@@ -417,6 +421,12 @@ code {
   margin-bottom: 12px;
 }
 
+.tracks-player__volume {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .volume-btn {
   background: transparent;
   border: none;
@@ -435,6 +445,7 @@ code {
   fill: #ccc;
 }
 
-.volume-up {
-  margin-left: 15px;
+.volume-number {
+  color: #fff;
+  margin: 0 10px;
 }
