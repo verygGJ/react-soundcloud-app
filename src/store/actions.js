@@ -20,10 +20,11 @@ export function removeInPlaylist(track, id) {
   }
 }
 
-export function registrationNewUser(name, email, password) {
+export function registrationNewUser(first_name, last_name, email, password) {
   return {
     type: REGISTRATION,
-    name: name,
+    first_name: first_name,
+    last_name: last_name,
     email: email,
     password: password,
     id: new Date().valueOf() + Math.random().toFixed(16).substring(2)

@@ -34,13 +34,15 @@ export function PlaylistState(state = initialState, action) {
 const registersUsersState = {
   registerUsers: [
     {
-      name: "admin",
+      first_name: "admin",
+      last_name: "adminovich",
       email: "admin@gmail.com",
       password: "0000",
       id: "12"
     },
     {
-      name: "test",
+      first_name: "test",
+      last_name: "",
       email: "test@gmail.com",
       password: "0000",
       id: "2232"
@@ -51,12 +53,13 @@ export function RegisterUsersState(state = registersUsersState, action) {
   switch (action.type) {
     case 'REGISTRATION':
       let id = { id: action.id };
-      let name = { name: action.name };
+      let first_name = { first_name: action.first_name };
+      let last_name = { last_name: action.last_name };
       let email = { email: action.email };
       let password = { password: action.password };
 
       let newUser = {}
-      newUser = {...id, ...name, ...email, ...password }
+      newUser = {...id, ...first_name, ...last_name, ...email, ...password }
 
       state.registerUsers.push(newUser)
       return {

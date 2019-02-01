@@ -14,6 +14,7 @@ class Header extends React.Component {
 
     let showPlaylistLink = isLoginState ? <Link to="/playlist">Playlist</Link> : null;
     let areaText = isLoginState ? 'Profile' : 'Login';
+    let area = <li className="main-nav__item"><Link to="/login">{areaText}</Link></li>
 
     return (
       <header className="header">
@@ -23,10 +24,7 @@ class Header extends React.Component {
               <Link to="/">Home</Link>
             </li>
             <li className="main-nav__item">
-              {showPlaylistLink}
-            </li>
-            <li className="main-nav__item">
-              <Link to="/login">{areaText}</Link>
+              <Link to="/playlist">Playlist</Link>
             </li>
           </ul>
         </div>

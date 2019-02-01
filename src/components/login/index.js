@@ -101,7 +101,7 @@ class Login extends React.Component {
           </div>
           <button className="submit-btn">Login</button>
         </form>
-        <div className="">
+        <div className="registration-link">
           <Link to="/registration">Registration</Link>
         </div>
 

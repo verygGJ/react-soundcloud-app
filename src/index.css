@@ -449,3 +449,9 @@ code {
   color: #fff;
   margin: 0 10px;
 }
+
+.loading {
+  text-align: center;
+  font-size: 22px;
+  color: #fff;
+}

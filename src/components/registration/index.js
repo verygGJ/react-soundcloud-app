@@ -3,28 +3,27 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
 import { registrationNewUser } from '../../store/actions';
+import './style.css'
 
 
 class Registration extends React.Component {
   state = {
-    name: '',
+    first_name: '',
+    last_name: '',
     email: '',
     password: '',
     registerMessage: false
   }
 
   handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+    console.log(e.target.value)
+    this.setState({ [e.target.name]: e.target.value })
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.registrationNewUser(this.state.name, this.state.email, this.state.password);
-    this.setState({
-      registerMessage: true
-    })
+    this.props.registrationNewUser(this.state.first_name, this.state.last_name, this.state.email, this.state.password);
+    this.setState({ registerMessage: true })
   }
 
 
@@ -46,9 +45,19 @@ class Registration extends React.Component {
             <input 
               className="main-input" 
               type="text" 
-              name="name"
-              placeholder="Name" 
-              value={this.state.name}
+              name="first_name"
+              placeholder="First Name" 
+              value={this.state.firstName}
+              onChange={this.handleChange}
+            />
+          </div>
+          <div className="form-block">
+            <input 
+              className="main-input" 
+              type="text" 
+              name="last_name"
+              placeholder="Last Name" 
+              value={this.state.lastName}
               onChange={this.handleChange}
             />
           </div>
@@ -57,7 +66,7 @@ class Registration extends React.Component {
               className="main-input" 
               type="email" 
               name="email"
-              placeholder="email" 
+              placeholder="Email" 
               value={this.state.email}
               onChange={this.handleChange}
             />
@@ -67,7 +76,7 @@ class Registration extends React.Component {
               className="main-input" 
               type="password" 
               name="password"
-              placeholder="password"  
+              placeholder="Password"  
               value={this.state.password}
               onChange={this.handleChange}
             />
@@ -75,7 +84,7 @@ class Registration extends React.Component {
           <button className="submit-btn">Registration</button>
         </form>
 
-        <div className="">
+        <div className="login-link">
           <Link to="/login">Login</Link>
         </div>
         
@@ -93,8 +102,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    registrationNewUser: (name, email, password) => {
-      dispatch(registrationNewUser(name, email, password))
+    registrationNewUser: (first_name, last_name, email, password) => {
+      dispatch(registrationNewUser(first_name, last_name, email, password))
     }
   }
 }
