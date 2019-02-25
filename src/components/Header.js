@@ -1,8 +1,5 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
-
-import { connect } from "react-redux";
 
 class Header extends React.Component {
   state = {
@@ -10,12 +7,6 @@ class Header extends React.Component {
   }
 
   render() {
-    const { isLoginState } = this.props;
-
-    let showPlaylistLink = isLoginState ? <Link to="/playlist">Playlist</Link> : null;
-    let areaText = isLoginState ? 'Profile' : 'Login';
-    let area = <li className="main-nav__item"><Link to="/login">{areaText}</Link></li>
-
     return (
       <header className="header">
         <div className="main-nav">
@@ -26,6 +17,9 @@ class Header extends React.Component {
             <li className="main-nav__item">
               <Link to="/playlist">Playlist</Link>
             </li>
+            <li className="main-nav__item">
+              <Link to="/area">Login</Link>
+            </li>
           </ul>
         </div>
       </header>
@@ -33,10 +27,4 @@ class Header extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    isLoginState: state.LoginUsersState.isLoginState
-  }
-}
-
-export default connect(mapStateToProps)(Header);
+export default Header;

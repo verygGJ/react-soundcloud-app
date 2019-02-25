@@ -1,132 +1,48 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
-import { actionLoginUser, actionlogoutUser } from '../../store/actions';
-import { connect } from "react-redux";
 
-class Login extends React.Component {
-  state = {
-    email: '',
-    password: '',
-    isLogin: this.props.isLoginState,
-    username: ''
-  }
+const Login = ({ history, loginUser = f => f }) => {
+  let _email, _password;
+  const handleLogin = e => {
+    e.preventDefault();
+    loginUser(_email.value, _password.value);
+  };
 
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-
-    let logginChecked;
-    this.props.registerUsers.some(user => {
-      if (user.email === this.state.email && user.password === this.state.password) {
-        logginChecked = true
-      } else {
-        logginChecked = false
-      }
-      return logginChecked;
-    })
-
-    if (logginChecked === true) {
-
-      let email = {email: this.state.email};
-      let password = {password: this.state.password};
-      let loginUser = {}
-      loginUser = {...email, ...password}
-
-      this.setState({ isLogin: true }, () => this.props.actionLoginUser(loginUser, this.state.isLogin))
-    } else {
-      alert('ERROR LOGIN')
-    }
-
-  }
-
-  componentDidMount() {
-    let UserName;
-    this.props.registerUsers.forEach(user => {
-      if (user.email === this.props.isLoginUser.email && user.password === this.props.isLoginUser.password) {
-        UserName = user.name;
-        return UserName
-      }
-      return UserName
-    }) 
-    this.setState({ username: UserName });
-  }
-
-  logoutUser = () => {
-    let loginUser = {}
-    this.setState({ isLogin: false }, () => this.props.actionlogoutUser(loginUser, this.state.isLogin))
-  }
-
-  render() {
-    if (this.state.isLogin === true) return <div className="area-user">
-                                              <div className="area-user__title">
-                                                Привет брат <span className="user-name">{this.state.username}</span>
-                                              </div>
-                                              <div className="area-user__text">
-                                                теперь можешь создать свой <Link to="/playlist">Плейлист</Link>
-                                              </div>
-                                              <div className="logout-text">
-                                                или можешь просто <span onClick={this.logoutUser} className="logout">Выйти в окно</span>
-                                              </div>
-                                            </div>
-
-    return (
-      <div className="area-page">
-        <form className="login-form" onSubmit={this.handleSubmit} >
-          <div className="login-form__title">Login</div>
-          <div className="form-block">
-            <input 
-              className="main-input" 
-              type="email" 
-              name="email"
-              placeholder="email" 
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="form-block">
-            <input 
-              className="main-input" 
-              type="password" 
-              name="password"
-              placeholder="password"  
-              value={this.state.password}
-              onChange={this.handleChange}
-            />
-          </div>
-          <button className="submit-btn">Login</button>
-        </form>
-        <div className="registration-link">
-          <Link to="/registration">Registration</Link>
+  return (
+    <div id="main">
+      <form id="login-form" action="" onSubmit={handleLogin} method="post">
+        <h3>Login Form</h3>
+        <div className="form-block">
+          <input ref={input => (_email = input)} 
+                autoComplete="off" 
+                id="email-input" 
+                name="email" 
+                type="text" 
+                className="main-input" 
+                placeholder="email" 
+          />
         </div>
+        <div className="form-block">
+          <input ref={input => (_password = input)} 
+                autoComplete="off" 
+                id="password-input" 
+                name="password" 
+                type="password" 
+                className="main-input" 
+                placeholder="password" 
+          />
+        </div>
+        <button type="submit" 
+                className="submit-btn" 
+                id="email-login-btn" 
+                href="#facebook" >
+          Login
+        </button>
+      </form>
+      
+      <Link to="/registration" >Register</Link>
+    </div>
+  );
+};
 
-      </div>
-    )
-  }
-}
-
-function mapStateToProps(state) {
-  return {
-    registerUsers: state.RegisterUsersState.registerUsers,
-    isLoginState: state.LoginUsersState.isLoginState,
-    isLoginUser: state.LoginUsersState.isLoginUser
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actionLoginUser: (loginUser, isLogin) => {
-      dispatch(actionLoginUser(loginUser, isLogin))
-    },
-    actionlogoutUser: (loginUser, isLogin) => {
-      dispatch(actionlogoutUser(loginUser, isLogin))
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default  Login;
