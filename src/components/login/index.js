@@ -2,18 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Login = ({ history, loginUser = f => f }) => {
-  let _email, _password;
+  let email, password;
   const handleLogin = e => {
     e.preventDefault();
-    loginUser(_email.value, _password.value);
+    loginUser(email.value, password.value);
   };
 
   return (
     <div id="main">
-      <form id="login-form" action="" onSubmit={handleLogin} method="post">
+      <form className="form" id="login-form" action="" onSubmit={handleLogin} method="post">
         <h3>Login Form</h3>
         <div className="form-block">
-          <input ref={input => (_email = input)} 
+          <input ref={input => (email = input)} 
                 autoComplete="off" 
                 id="email-input" 
                 name="email" 
@@ -23,7 +23,7 @@ const Login = ({ history, loginUser = f => f }) => {
           />
         </div>
         <div className="form-block">
-          <input ref={input => (_password = input)} 
+          <input ref={input => (password = input)} 
                 autoComplete="off" 
                 id="password-input" 
                 name="password" 
@@ -40,7 +40,7 @@ const Login = ({ history, loginUser = f => f }) => {
         </button>
       </form>
       
-      <Link to="/registration" >Register</Link>
+      <Link className="tab-link" to="/registration" >Register</Link>
     </div>
   );
 };

@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "history": "^4.7.2",
+    "jquery": "^3.3.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",

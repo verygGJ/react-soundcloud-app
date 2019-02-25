@@ -10,7 +10,7 @@ const Register = ({ history, registerUser = f => f }) => {
 
   return (
     <div id="main">
-      <form id="login-form" action="" onSubmit={handleLogin} method="post">
+      <form className="form" id="login-form" action="" onSubmit={handleLogin} method="post">
         <h3>Register Form</h3>
         <div className="form-block">
           <input ref={input => (_name = input)}  
@@ -43,14 +43,14 @@ const Register = ({ history, registerUser = f => f }) => {
           />
         </div>
         <button type="submit" 
-                className="landing-page-btn" 
+                className="submit-btn" 
                 id="email-login-btn" 
                 href="#facebook" >
                 Register
         </button>
       </form>
       
-      <Link to="/login">Login</Link>
+      <Link className="tab-link" to="/login">Login</Link>
     </div>
   );
 };

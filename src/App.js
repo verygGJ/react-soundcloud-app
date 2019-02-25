@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-// import $ from 'jquery';
+import $ from 'jquery';
 import { Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header';
