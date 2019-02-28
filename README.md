@@ -1,18 +1,14 @@
-This project was bootstrapped with Create React App.
+### Introduction
+This app is based on Node.js & React.<br>
+Find your favorite music and save to your personal account.
 
-## App Demo 
+### Developers
+Front-end: [Evgeniy](https://github.com/verygGJ)<br>
+Back-end: [Viacheslav](https://github.com/viacheslav-pastushenko)
 
-Open [Demo](https://react-sound-app.netlify.com/)
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm install`
-
-Install packages
-
-### `npm start`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Start
+###### `npm install`
+###### `npm run dev`
+###### `npm run watch`
+###### `Open localhost:8000 to view it in your browser`

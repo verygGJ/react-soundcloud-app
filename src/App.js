@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import $ from 'jquery';
 import { Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header';
@@ -14,7 +13,10 @@ import Register from './components/registration/index';
 class App extends React.Component {
   state = {
     isLoggedIn: false,
-    user: {}
+    user: {},
+    errors: false,
+    textError: '',
+    errorsFields: []
   };
 
   _loginUser = (email, password) => {
@@ -90,7 +92,13 @@ class App extends React.Component {
             user: appState.user
           });
         } else {
-          alert(`Registration Failed!`);
+          console.log(json.data.fields)
+          console.log(json)
+          this.setState({
+            errors: true,
+            textError: json.data.error,
+            errorsFields: json.data.fields
+          })
         }
       })
       .catch(error => {
@@ -140,7 +148,12 @@ class App extends React.Component {
             />
             <Route path="/registration"
               render={props => (
-                <Register {...props} registerUser={this._registerUser} />
+                <Register {...props} 
+                  registerUser={this._registerUser} 
+                  errors={this.state.errors} 
+                  textError={this.state.textError} 
+                  errorsFields={this.state.errorsFields}
+                />
               )}
             />
           </Switch>

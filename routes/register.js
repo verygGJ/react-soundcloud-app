@@ -9,29 +9,23 @@ router.post('/register', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  if (!name || !email || !password) {
-    res.json({
-      success: false,
-      error: 'All fields are required',
-      fields: ['name', 'email', 'password']
-    });
-  } else if (name.length < 2 || name.length > 64) {
+  if (name.length < 2 || name.length > 64) {
     res.json({
       success: false,
       error: 'Enter your name',
       fields: ['name']
     })
-  } else if (password.length < 5) {
-    res.json({
-      success: false,
-      error: 'Minimum number of characters - 5',
-      fields: ['password']
-    });
   } else if (!validator.validate(email)) {
     res.json({
       success: false,
       error: 'Enter correct email',
       fields: ['email']
+    });
+  } else if (password.length < 5) {
+    res.json({
+      success: false,
+      error: 'Minimum number of characters - 5',
+      fields: ['password']
     });
   } else {
 
