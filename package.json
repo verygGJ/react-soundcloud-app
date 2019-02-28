@@ -1,11 +1,11 @@
 {
-  "name": "test-app",
-  "version": "0.1.0",
+  "name": "soundcloud-app",
+  "version": "1.0.0",
   "private": true,
   "main": "server.js",
-  "proxy": "http://localhost:8080",
   "dependencies": {
     "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "history": "^4.7.2",
     "jquery": "^3.3.1",
@@ -22,7 +22,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "watch": "npm-watch"
+  },
+  "watch": {
+    "build": "src/"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -34,6 +38,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "npm-watch": "^0.6.0"
   }
 }
