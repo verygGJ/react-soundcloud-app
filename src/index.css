@@ -491,6 +491,15 @@ code {
   border-color: #fff;
 }
 
+.main-input.error {
+  border-color: red;
+}
+p.error {
+  color: red;
+  font-size: 22px;
+  text-align: center;
+}
+
 .submit-btn {
   width: 100%;
   height: 50px;
