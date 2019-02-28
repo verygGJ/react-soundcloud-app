@@ -1,10 +1,11 @@
 {
-  "name": "test-app",
-  "version": "0.1.0",
+  "name": "soundcloud-app",
+  "version": "1.0.0",
   "private": true,
   "main": "server.js",
   "dependencies": {
     "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "history": "^4.7.2",
     "jquery": "^3.3.1",
