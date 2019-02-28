@@ -10,4 +10,4 @@ Back-end: [Viacheslav](https://github.com/viacheslav-pastushenko)
 ###### `npm install`
 ###### `npm run dev`
 ###### `npm run watch`
-###### `Open [localhost:8000](http://localhost:8000) to view it in your browser`
+###### `Open localhost:8000 to view it in your browser`
