@@ -57,14 +57,14 @@ class App extends React.Component {
   };
 
   _registerUser = (name, email, password) => {
-
-    var formData = new FormData(); 
-    formData.append("password", password);
-    formData.append("email", email);
-    formData.append("name", name);
+    let userPost = {
+      "name": name,
+      "email": email,
+      "password": password
+    }
 
     axios
-      .post("http://localhost:8000/api/user/register", formData)
+      .post("http://localhost:8000/api/user/register", userPost)
       .then(response => {
         console.log(response);
         return response;
@@ -95,7 +95,6 @@ class App extends React.Component {
       })
       .catch(error => {
         alert("An Error Occured!" + error);
-        console.log(`${formData} ${error}`);
       });
   };
 
