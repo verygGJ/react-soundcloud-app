@@ -34,26 +34,39 @@ router.post('/register', (req, res) => {
       fields: ['email']
     });
   } else {
-    bcrypt.hash(password, null, null, (err, hash) => {
-      models.User.create({
-        name,
-        email,
-        password: hash
-      })
-      .then(user => {
-        console.log('New user:', user);
-        res.json({
-          success: true
-        })
-      })
-      .catch(err => {
-        console.log(err);
+
+    models.User.findOne({
+      email
+    }).then(email => {
+      if (!email) {
+        bcrypt.hash(password, null, null, (err, hash) => {
+          models.User.create({
+            name,
+            email,
+            password: hash
+          })
+          .then(user => {
+            console.log('New user:', user);
+            res.json({
+              success: true
+            })
+          })
+          .catch(err => {
+            console.log(err);
+            res.json({
+              success: false,
+              error: 'Error. Please, try again'
+            });
+          });
+        }); 
+      } else {
         res.json({
           success: false,
-          error: 'Error. Please, try again'
-        });
-      });
-    });  
+          error: 'Email is already registered',
+          fields: ['email']
+        })
+      }
+    }) 
   }
 });
 
