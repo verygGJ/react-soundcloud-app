@@ -10,10 +10,13 @@ const Register = ({ errors, textError, errorsFields, registerUser = f => f }) =>
   };
 
   let errorText = errors ? <p className="error">{textError}</p> : '';
-  let errorName = errorsFields.indexOf('name') !== -1;
-  let errorEmail = errorsFields.indexOf('email') !== -1;
-  let errorPassword = errorsFields.indexOf('password') !== -1;
 
+
+  let errorName = errorsFields && errorsFields.length > 0 ? errorsFields.indexOf('name') !== -1 : '';
+  let errorEmail = errorsFields && errorsFields.length > 0 ? errorsFields.indexOf('email') !== -1 : '';
+  let errorPassword = errorsFields && errorsFields.length > 0 ? errorsFields.indexOf('password') !== -1 : '';
+  
+  console.log(errorsFields)
 
     return (
       <div id="main">

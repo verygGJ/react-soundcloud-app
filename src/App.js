@@ -89,7 +89,9 @@ class App extends React.Component {
           localStorage["appState"] = JSON.stringify(appState);
           this.setState({
             isLoggedIn: appState.isLoggedIn,
-            user: appState.user
+            user: appState.user,
+            errors: false,
+            errorsFields: []
           });
         } else {
           console.log(json.data.fields)
