@@ -18,16 +18,26 @@ class Login extends React.Component {
   };
 
   render() {
+
+    let errorText = this.props.errors ? <p className="error">{this.props.textError}</p> : '';
+    
+    let errorEmail = this.props.errorsFields && this.props.errorsFields.length > 0 ? 
+                     this.props.errorsFields.indexOf('email') !== -1 : '';
+
+    let errorPassword = this.props.errorsFields && this.props.errorsFields.length > 0 ? 
+                        this.props.errorsFields.indexOf('password') !== -1 : '';
+
     return (
       <div id="main">
       <form className="form" id="login-form" action="" onSubmit={this.handleLogin} method="post">
         <h3>Login Form</h3>
+        {errorText}
         <div className="form-block">
           <input onChange={this.handleChange}
                 autoComplete="off" 
                 name="email" 
                 type="email" 
-                className="main-input" 
+                className={errorEmail ? 'main-input error' : 'main-input'}
                 placeholder="email" 
           />
         </div>
@@ -36,7 +46,7 @@ class Login extends React.Component {
                 autoComplete="off" 
                 name="password" 
                 type="password" 
-                className="main-input" 
+                className={errorPassword ? 'main-input error' : 'main-input'}
                 placeholder="password" 
           />
         </div>

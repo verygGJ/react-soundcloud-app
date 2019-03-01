@@ -24,6 +24,11 @@ export default class Area extends React.Component {
   //     });
   // }
 
+  logout = (e) => {
+    e.preventDefault();
+    this.props.logoutUser(this.props.user.email)
+  }
+
   render() {
 
     if (!this.props.isLoggedIn) {
@@ -32,8 +37,8 @@ export default class Area extends React.Component {
 
     return (
       <div className="area">
-        <h2>Welcome Home</h2>
-        <button onClick={this.props.logoutUser} >Logout{" "}</button>
+        <h2>Welcome {this.props.user.name}</h2>
+        <button onClick={this.logout} >Logout{" "}</button>
       </div>
     );
   }
