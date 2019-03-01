@@ -20,33 +20,39 @@ class App extends React.Component {
   };
 
   loginUser = (email, password) => {
-
     let userPost = { "email": email, "password": password }
-    console.log(userPost)
-
     axios
       .post("http://localhost:8000/api/user/login", userPost)
       .then(response => {
-        console.log(response);
         return response;
       })
       .then(json => {
         if (json.data.success) {
           alert("Login Successful!");
 
-          let appState = {
-            isLoggedIn: true,
+          let userData = {
+            name: json.data.data.name,
+            email: json.data.data.email,
           };
-          
-          localStorage["appState"] = JSON.stringify(appState);
+
+          // let appState = { isLoggedIn: true, user: userData };
+          // localStorage["appState"] = JSON.stringify(appState);
 
           this.setState({
-            isLoggedIn: appState.isLoggedIn
+            isLoggedIn: true,
+            user: userData,
+            errors: false
           }, () => {
             this.props.history.push("/area");
           });
 
-        } else alert("Login Failed!");
+        } else {
+          this.setState({
+            errors: true,
+            textError: json.data.error,
+            errorsFields: json.data.fields
+          })
+        }
 
       })
       .catch(error => {
@@ -55,7 +61,6 @@ class App extends React.Component {
   };
 
   registerUser = (name, email, password) => {
-
     let userPost = { "name": name, "email": email, "password": password }
     axios
       .post("http://localhost:8000/api/user/register", userPost)
@@ -65,29 +70,21 @@ class App extends React.Component {
       .then(json => {
         if (json.data.success) {
 
-          alert(`Registration Successful!`);
-
           let userData = {
             name: json.data.data.name,
-            id: json.data.data.id,
             email: json.data.data.email,
           };
 
-          let appState = {
-            isLoggedIn: true,
-            user: userData
-          };
-
-          localStorage["appState"] = JSON.stringify(appState);
+          // let appState = { isLoggedIn: true, user: userData };
+          // localStorage["appState"] = JSON.stringify(appState);
 
           this.setState({
-            isLoggedIn: appState.isLoggedIn,
-            user: appState.user,
+            isLoggedIn: true,
+            user: userData,
             errors: false
           });
 
         } else {
-          console.log(json)
           this.setState({
             errors: true,
             textError: json.data.error,
@@ -100,18 +97,38 @@ class App extends React.Component {
       });
   };
 
-  logoutUser = () => {
-    let appState = {
-      isLoggedIn: false
-    };
-    localStorage["appState"] = JSON.stringify(appState);
-    
-    this.setState({
-      isLoggedIn: appState.isLoggedIn
-    }, () => {
-      this.props.history.push("/login");
-    });
+  // logoutUser = () => {
+  //   // let appState = {
+  //   //   isLoggedIn: false,
+  //   //   user: {}
+  //   // };
+  //   // localStorage["appState"] = JSON.stringify(appState);
+  //   this.setState({
+  //     isLoggedIn: false,
+  //     user: {}
+  //   }, () => {
+  //     this.props.history.push("/login");
+  //   });
+  // };
 
+  logoutUser = (email) => {
+    let userPost = { "email": email }
+    axios
+      .post("http://localhost:8000/api/user/logout", userPost)
+      .then(response => {
+        return response;
+      })
+      .then(json => {
+        if (json.data.success) {
+          this.setState({
+            isLoggedIn: false,
+            user: {}
+          }, () => {
+            this.props.history.push("/login");
+          });
+        } else alert("Logout Failed!");
+      })
+      .catch(error => { console.log(`An Error Occured! ${error}`) });
   };
 
   componentDidMount() {
@@ -140,6 +157,7 @@ class App extends React.Component {
                 <Area {...props} 
                   logoutUser={this.logoutUser} 
                   isLoggedIn={this.state.isLoggedIn} 
+                  user={this.state.user}
                 />
               )}
             />
