@@ -1,65 +1,75 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Register = ({ errors, textError, errorsFields, registerUser = f => f }) => {
+class Register extends React.Component {
+  state = {
+    name: '',
+    email: '',
+    password: ''
+  }
 
-  let _email, _password, _name;
-  const handleLogin = e => {
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  handleLogin = (e) => {
     e.preventDefault();
-    registerUser(_name.value, _email.value, _password.value);
+    this.props.registerUser(this.state.name, this.state.email, this.state.password);
   };
 
-  const errorText = errors ? <p className="error">{textError}</p> : '';
-  const errorName = errorsFields && errorsFields.length > 0 ? errorsFields.indexOf('name') !== -1 : '';
-  const errorEmail = errorsFields && errorsFields.length > 0 ? errorsFields.indexOf('email') !== -1 : '';
-  const errorPassword = errorsFields && errorsFields.length > 0 ? errorsFields.indexOf('password') !== -1 : '';
-  
-  return (
-    <div id="main">
-      <form className="form" id="login-form" action="" onSubmit={handleLogin} method="post">
-        <h3>Register Form</h3>
-        {errorText}
-        <div className="form-block">
-          <input ref={input => (_name = input)}  
-                  autoComplete="off" 
-                  id="email-input" 
-                  name="email" 
-                  type="text" 
-                  className={errorName ? 'main-input error' : 'main-input'}
-                  placeholder="Name" 
-          />
-        </div>
-        <div className="form-block">
-          <input ref={input => (_email = input)} 
-                autoComplete="off" 
-                id="email-input" 
-                name="email" 
-                type="email" 
-                className={errorEmail ? 'main-input error' : 'main-input'}
-                placeholder="email" 
-          />
-        </div>
-        <div className="form-block">
-          <input ref={input => (_password = input)} 
-                autoComplete="off" 
-                id="password-input" 
-                name="password" 
-                type="password" 
-                className={errorPassword ? 'main-input error' : 'main-input'}
-                placeholder="password" 
-          />
-        </div>
-        <button type="submit" 
-                className="submit-btn" 
-                id="email-login-btn" 
-                href="#facebook" >
-                Register
-        </button>
-      </form>
-      
-      <Link className="tab-link" to="/login">Login</Link>
-    </div>
-  );
+  render() {
+    let errorText = this.props.errors ? <p className="error">{this.props.textError}</p> : '';
+    
+    let errorName = this.props.errorsFields && this.props.errorsFields.length > 0 ? 
+                    this.props.errorsFields.indexOf('name') !== -1 : '';
+
+    let errorEmail = this.props.errorsFields && this.props.errorsFields.length > 0 ? 
+                     this.props.errorsFields.indexOf('email') !== -1 : '';
+
+    let errorPassword = this.props.errorsFields && this.props.errorsFields.length > 0 ? 
+                        this.props.errorsFields.indexOf('password') !== -1 : '';
+    
+    return (
+      <div id="main">
+        <form className="form" id="login-form" action="" onSubmit={this.handleLogin} method="post">
+          <h3>Register Form</h3>
+          {errorText}
+          <div className="form-block">
+            <input ref={input => (this.inputName = input)}  
+                   autoComplete="off" 
+                   name="name" 
+                   type="text"
+                   className={errorName ? 'main-input error' : 'main-input'}
+                   placeholder="Name" 
+                   onChange={this.handleChange}
+            />
+          </div>
+          <div className="form-block">
+            <input ref={input => (this.inputEmail = input)} 
+                   autoComplete="off" 
+                   name="email" 
+                   type="email" 
+                   className={errorEmail ? 'main-input error' : 'main-input'}
+                   placeholder="email" 
+                   onChange={this.handleChange}
+            />
+          </div>
+          <div className="form-block">
+            <input ref={input => (this.inputPassword = input)} 
+                   autoComplete="off" 
+                   name="password" 
+                   type="password" 
+                   className={errorPassword ? 'main-input error' : 'main-input'}
+                   placeholder="password" 
+                   onChange={this.handleChange}
+            />
+          </div>
+          <button type="submit" className="submit-btn">Register</button>
+        </form>
+        <Link className="tab-link" to="/login">Login</Link>
+      </div>
+    );
+  }
 
 };
 
