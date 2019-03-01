@@ -20,12 +20,13 @@ class App extends React.Component {
   };
 
   _loginUser = (email, password) => {
-    var formData = new FormData();
-    formData.append("email", email);
-    formData.append("password", password);
+    let userPost = {
+      "email": email,
+      "password": password
+    }
 
     axios
-      .post("http://localhost:8000/api/user/login/", formData)
+      .post("http://localhost:8000/api/user/login/", userPost)
       .then(response => {
         console.log(response);
         return response;

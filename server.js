@@ -19,4 +19,4 @@ app.get('/', (req, res) => {
     res.send('index');
 });
 
-app.use('/api/user', routes.register);
+app.use('/api/user', routes.auth);

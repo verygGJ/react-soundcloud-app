@@ -4,10 +4,19 @@ const bcrypt = require('bcrypt-nodejs');
 const models = require('../models');
 const router = express.Router();
 
+
+// Registration
 router.post('/register', (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
+
+  if (!name || !email || !password) {
+    const fields = [];
+    if (!name) fields.push('name');
+    if (!email) fields.push('email');
+    if (!password) fields.push('password');  
+  }
 
   if (name.length < 2 || name.length > 64) {
     res.json({
@@ -62,5 +71,24 @@ router.post('/register', (req, res) => {
     }) 
   }
 });
+
+
+// Authorization
+router.post('/login', (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  if (!email || !password) {
+    const fields = [];
+    if (!email) fields.push('email');
+    if (!password) fields.push('password');  
+  }
+
+  models.User.findOne({
+    email
+  })
+
+});
+
 
 module.exports = router;
