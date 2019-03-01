@@ -44,10 +44,10 @@ router.post('/register', (req, res) => {
         password: hash
       })
       .then(user => {
-        console.log('New user:', user);
+        req.session.userEmail = email;
         res.json({
           success: true
-        })
+        });
       })
       .catch(err => {
         console.log(err);
@@ -83,17 +83,18 @@ router.post('/login', (req, res) => {
           fields: ['email']
         });
     } else {
-      bcrypt.compare(password, user.password, (err, res) => {
-        if (!res) {
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (!result) {
           res.json({
             success: false,
             error: 'Wrong password',
             fields: ['password']
           });
         } else {
+          req.session.userEmail = user.email;
           res.json({
             success: true
-          })
+          });
         }
     });
     }
