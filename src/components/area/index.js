@@ -1,5 +1,4 @@
 import React from "react";
-// import axios from "axios";
 
 export default class Area extends React.Component {
   // state = {
@@ -26,22 +25,14 @@ export default class Area extends React.Component {
   // }
 
   render() {
-    if (
-      !this.props.isLoggedIn &&
-      this.props.location.pathname !== "/login" &&
-      this.props.location.pathname !== "/registration"
-    ) {
+
+    if (!this.props.isLoggedIn) {
       this.props.history.push("/login");
     }
-    if (
-      this.props.isLoggedIn &&
-      (this.props.location.pathname === "/login" || this.props.location.pathname === "/registration")
-    ) {
-      this.props.history.push("/area");
-    }
+
     return (
       <div className="area">
-        <h2>Welcome Home {"\u2728"}</h2>
+        <h2>Welcome Home</h2>
         <button onClick={this.props.logoutUser} >Logout{" "}</button>
       </div>
     );
