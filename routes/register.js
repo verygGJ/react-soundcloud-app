@@ -14,7 +14,7 @@ router.post('/register', (req, res) => {
       success: false,
       error: 'Enter your name',
       fields: ['name']
-    })
+    });
   } else if (!validator.validate(email)) {
     res.json({
       success: false,
@@ -28,7 +28,6 @@ router.post('/register', (req, res) => {
       fields: ['password']
     });
   } else {
-
     models.User.findOne({
       email
     }).then(email => {
