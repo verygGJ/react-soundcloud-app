@@ -35,12 +35,12 @@ class App extends React.Component {
             email: json.data.data.email,
           };
 
-          // let appState = { isLoggedIn: true, user: userData };
-          // localStorage["appState"] = JSON.stringify(appState);
+          let appState = { isLoggedIn: true, user: userData };
+          localStorage["appState"] = JSON.stringify(appState);
 
           this.setState({
-            isLoggedIn: true,
-            user: userData,
+            isLoggedIn: appState.isLoggedIn,
+            user: appState.user,
             errors: false
           }, () => {
             this.props.history.push("/area");
@@ -75,13 +75,12 @@ class App extends React.Component {
             email: json.data.data.email,
           };
 
-          // let appState = { isLoggedIn: true, user: userData };
-          // localStorage["appState"] = JSON.stringify(appState);
+          let appState = { isLoggedIn: true, user: userData };
+          localStorage["appState"] = JSON.stringify(appState);
 
           this.setState({
-            isLoggedIn: true,
-            user: userData,
-            errors: false
+            isLoggedIn: appState.isLoggedIn,
+            user: appState.user,
           });
 
         } else {
@@ -120,9 +119,13 @@ class App extends React.Component {
       })
       .then(json => {
         if (json.data.success) {
+
+          let appState = { isLoggedIn: false, user: {} };
+          localStorage["appState"] = JSON.stringify(appState);
+
           this.setState({
-            isLoggedIn: false,
-            user: {}
+            isLoggedIn: appState.isLoggedIn,
+            user: appState.user
           }, () => {
             this.props.history.push("/login");
           });
@@ -137,7 +140,7 @@ class App extends React.Component {
       let AppState = JSON.parse(state);
       this.setState({ 
         isLoggedIn: AppState.isLoggedIn, 
-        user: AppState 
+        user: AppState.user
       });
     }
   }
