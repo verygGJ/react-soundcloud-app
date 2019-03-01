@@ -59,43 +59,40 @@ class App extends React.Component {
       });
   };
 
-  _registerUser = (name, email, password) => {
-    let userPost = {
-      "name": name,
-      "email": email,
-      "password": password
-    }
+  registerUser = (name, email, password) => {
 
+    let userPost = { "name": name, "email": email, "password": password }
+    console.log(userPost)
     axios
       .post("http://localhost:8000/api/user/register", userPost)
       .then(response => {
-        console.log(response);
         return response;
       })
       .then(json => {
         if (json.data.success) {
+
           alert(`Registration Successful!`);
 
           let userData = {
             name: json.data.data.name,
             id: json.data.data.id,
             email: json.data.data.email,
-            auth_token: json.data.data.auth_token,
-            timestamp: new Date().toString()
           };
+
           let appState = {
             isLoggedIn: true,
             user: userData
           };
+
           localStorage["appState"] = JSON.stringify(appState);
+
           this.setState({
             isLoggedIn: appState.isLoggedIn,
             user: appState.user,
-            errors: false,
-            errorsFields: []
+            errors: false
           });
+
         } else {
-          console.log(json.data.fields)
           console.log(json)
           this.setState({
             errors: true,
@@ -105,7 +102,7 @@ class App extends React.Component {
         }
       })
       .catch(error => {
-        alert("An Error Occured!" + error);
+        console.log("An Error Occured!" + error)
       });
   };
 
@@ -152,7 +149,7 @@ class App extends React.Component {
             <Route path="/registration"
               render={props => (
                 <Register {...props} 
-                  registerUser={this._registerUser} 
+                  registerUser={this.registerUser} 
                   errors={this.state.errors} 
                   textError={this.state.textError} 
                   errorsFields={this.state.errorsFields}
