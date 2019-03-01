@@ -1,48 +1,52 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const Login = ({ history, loginUser = f => f }) => {
-  let email, password;
-  const handleLogin = e => {
+
+class Login extends React.Component {
+  state = {
+    email: '',
+    password: ''
+  }
+
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+  handleLogin = (e) => {
     e.preventDefault();
-    loginUser(email.value, password.value);
+    this.props.loginUser(this.state.email, this.state.password);
   };
 
-  return (
-    <div id="main">
-      <form className="form" id="login-form" action="" onSubmit={handleLogin} method="post">
+  render() {
+    return (
+      <div id="main">
+      <form className="form" id="login-form" action="" onSubmit={this.handleLogin} method="post">
         <h3>Login Form</h3>
         <div className="form-block">
-          <input ref={input => (email = input)} 
+          <input onChange={this.handleChange}
                 autoComplete="off" 
-                id="email-input" 
                 name="email" 
-                type="text" 
+                type="email" 
                 className="main-input" 
                 placeholder="email" 
           />
         </div>
         <div className="form-block">
-          <input ref={input => (password = input)} 
+          <input onChange={this.handleChange}
                 autoComplete="off" 
-                id="password-input" 
                 name="password" 
                 type="password" 
                 className="main-input" 
                 placeholder="password" 
           />
         </div>
-        <button type="submit" 
-                className="submit-btn" 
-                id="email-login-btn" 
-                href="#facebook" >
-          Login
-        </button>
+        <button type="submit" className="submit-btn">Login</button>
       </form>
-      
       <Link className="tab-link" to="/registration" >Register</Link>
     </div>
-  );
+    );
+  }
+
 };
 
 export default  Login;

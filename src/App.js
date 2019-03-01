@@ -19,14 +19,13 @@ class App extends React.Component {
     errorsFields: []
   };
 
-  _loginUser = (email, password) => {
-    let userPost = {
-      "email": email,
-      "password": password
-    }
+  loginUser = (email, password) => {
+
+    let userPost = { "email": email, "password": password }
+    console.log(userPost)
 
     axios
-      .post("http://localhost:8000/api/user/login/", userPost)
+      .post("http://localhost:8000/api/user/login", userPost)
       .then(response => {
         console.log(response);
         return response;
@@ -35,34 +34,29 @@ class App extends React.Component {
         if (json.data.success) {
           alert("Login Successful!");
 
-          let userData = {
-            name: json.data.data.name,
-            id: json.data.data.id,
-            email: json.data.data.email,
-            auth_token: json.data.data.auth_token,
-            timestamp: new Date().toString()
-          };
           let appState = {
             isLoggedIn: true,
-            user: userData
           };
+          
           localStorage["appState"] = JSON.stringify(appState);
+
           this.setState({
-            isLoggedIn: appState.isLoggedIn,
-            user: appState.user
+            isLoggedIn: appState.isLoggedIn
+          }, () => {
+            this.props.history.push("/area");
           });
+
         } else alert("Login Failed!");
 
       })
       .catch(error => {
-        alert(`An Error Occured! ${error}`);
+        console.log(`An Error Occured! ${error}`)
       });
   };
 
   registerUser = (name, email, password) => {
 
     let userPost = { "name": name, "email": email, "password": password }
-    console.log(userPost)
     axios
       .post("http://localhost:8000/api/user/register", userPost)
       .then(response => {
@@ -106,13 +100,18 @@ class App extends React.Component {
       });
   };
 
-  _logoutUser = () => {
+  logoutUser = () => {
     let appState = {
-      isLoggedIn: false,
-      user: {}
+      isLoggedIn: false
     };
     localStorage["appState"] = JSON.stringify(appState);
-    this.setState(appState);
+    
+    this.setState({
+      isLoggedIn: appState.isLoggedIn
+    }, () => {
+      this.props.history.push("/login");
+    });
+
   };
 
   componentDidMount() {
@@ -138,13 +137,21 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/area"
               render={props => (
-                <Area {...props} logoutUser={this._logoutUser} user={this.state.user} />
+                <Area {...props} 
+                  logoutUser={this.logoutUser} 
+                  isLoggedIn={this.state.isLoggedIn} 
+                />
               )}
             />
             <Route path="/login"
-              render={props => 
-                <Login {...props} loginUser={this._loginUser} 
-              />}
+              render={props => (
+                <Login {...props} 
+                  loginUser={this.loginUser} 
+                  errors={this.state.errors} 
+                  textError={this.state.textError} 
+                  errorsFields={this.state.errorsFields}
+                /> 
+              )}
             />
             <Route path="/registration"
               render={props => (
