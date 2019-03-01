@@ -75,7 +75,36 @@ router.post('/login', (req, res) => {
   models.User.findOne({
     email
   })
-
+  .then(user => {
+    if (!user) {
+        res.json({
+          success: false,
+          error: 'Email is not registered',
+          fields: ['email']
+        });
+    } else {
+      bcrypt.compare(password, user.password, (err, res) => {
+        if (!res) {
+          res.json({
+            success: false,
+            error: 'Wrong password',
+            fields: ['password']
+          });
+        } else {
+          res.json({
+            success: true
+          })
+        }
+    });
+    }
+  })
+  .catch(err => {
+    console.log(err);
+    res.json({
+      success: false,
+      error: 'Error. Please, try again'
+    });
+  });
 });
 
 
