@@ -79,8 +79,6 @@ class App extends React.Component {
             name: json.data.data.name,
             id: json.data.data.id,
             email: json.data.data.email,
-            auth_token: json.data.data.auth_token,
-            timestamp: new Date().toString()
           };
           let appState = {
             isLoggedIn: true,
@@ -90,8 +88,6 @@ class App extends React.Component {
           this.setState({
             isLoggedIn: appState.isLoggedIn,
             user: appState.user,
-            errors: false,
-            errorsFields: []
           });
         } else {
           console.log(json.data.fields)
