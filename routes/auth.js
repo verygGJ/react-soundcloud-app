@@ -46,7 +46,11 @@ router.post('/register', (req, res) => {
       .then(user => {
         req.session.userEmail = email;
         res.json({
-          success: true
+          success: true,
+          data: {
+            name: name,
+            email: email
+          }
         });
       })
       .catch(err => {
@@ -93,7 +97,11 @@ router.post('/login', (req, res) => {
         } else {
           req.session.userEmail = user.email;
           res.json({
-            success: true
+            success: true,
+            data: {
+              name: user.name,
+              email: user.email
+            }
           });
         }
     });
