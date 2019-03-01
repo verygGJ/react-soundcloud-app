@@ -4,10 +4,19 @@ const bcrypt = require('bcrypt-nodejs');
 const models = require('../models');
 const router = express.Router();
 
+
+// Registration
 router.post('/register', (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
+
+  if (!name || !email || !password) {
+    const fields = [];
+    if (!name) fields.push('name');
+    if (!email) fields.push('email');
+    if (!password) fields.push('password');  
+  }
 
   if (name.length < 2 || name.length > 64) {
     res.json({
@@ -50,5 +59,53 @@ router.post('/register', (req, res) => {
     });
   }
 });
+
+
+// Authorization
+router.post('/login', (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  if (!email || !password) {
+    const fields = [];
+    if (!email) fields.push('email');
+    if (!password) fields.push('password');  
+  }
+
+  models.User.findOne({
+    email
+  })
+  .then(user => {
+    if (!user) {
+        res.json({
+          success: false,
+          error: 'Email is not registered',
+          fields: ['email']
+        });
+    } else {
+      bcrypt.compare(password, user.password, (err, res) => {
+        if (!res) {
+          res.json({
+            success: false,
+            error: 'Wrong password',
+            fields: ['password']
+          });
+        } else {
+          res.json({
+            success: true
+          })
+        }
+    });
+    }
+  })
+  .catch(err => {
+    console.log(err);
+    res.json({
+      success: false,
+      error: 'Error. Please, try again'
+    });
+  });
+});
+
 
 module.exports = router;
