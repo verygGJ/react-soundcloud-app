@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt-nodejs');
 const models = require('../models');
 const router = express.Router();
 
-
 // Registration
 router.post('/register', (req, res) => {
   const name = req.body.name;
@@ -64,7 +63,6 @@ router.post('/register', (req, res) => {
   }
 });
 
-
 // Authorization
 router.post('/login', (req, res) => {
   const email = req.body.email;
@@ -116,5 +114,15 @@ router.post('/login', (req, res) => {
   });
 });
 
+// Logout
+router.post('/logout', (req, res) => {
+  if (req.session) {
+    req.session.destroy(() => {
+      res.json({
+        success: true
+      });
+    });
+  }
+});
 
 module.exports = router;
