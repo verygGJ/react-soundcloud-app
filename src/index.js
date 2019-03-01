@@ -12,14 +12,16 @@ import rootReducer from './store/reducers';
 import { PlaylistState } from './store/store';
 
 
-const persistedState = localStorage.getItem('reduxState') ? 
-      JSON.parse(localStorage.getItem('reduxState')) : {}
+// const persistedState = localStorage.getItem('reduxState') ? 
+//       JSON.parse(localStorage.getItem('reduxState')) : {}
       
-const store = createStore(rootReducer, persistedState);
+// const store = createStore(rootReducer, persistedState);
 
-store.subscribe(()=>{
-  localStorage.setItem('reduxState', JSON.stringify(store.getState(PlaylistState)))
-})
+// store.subscribe(()=>{
+//   localStorage.setItem('reduxState', JSON.stringify(store.getState(PlaylistState)))
+// })
+
+const store = createStore(rootReducer);
 
 const AppContainer = withRouter(props => <App {...props} />);
 
