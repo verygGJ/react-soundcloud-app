@@ -9,6 +9,8 @@ import Area from './components/area/index';
 import Login from './components/login/index';
 import Register from './components/registration/index';
 
+import { connect } from "react-redux";
+import { isLogin, noLogin } from './store/actions';
 
 class App extends React.Component {
   state = {
@@ -28,7 +30,6 @@ class App extends React.Component {
       })
       .then(json => {
         if (json.data.success) {
-          alert("Login Successful!");
 
           let userData = {
             name: json.data.data.name,
@@ -46,7 +47,14 @@ class App extends React.Component {
             this.props.history.push("/area");
           });
 
+          this.props.isLogin(true)
+
+          console.log(this.props.isLogin())
+
         } else {
+
+          this.props.noLogin(true)
+
           this.setState({
             errors: true,
             textError: json.data.error,
@@ -96,20 +104,6 @@ class App extends React.Component {
       });
   };
 
-  // logoutUser = () => {
-  //   // let appState = {
-  //   //   isLoggedIn: false,
-  //   //   user: {}
-  //   // };
-  //   // localStorage["appState"] = JSON.stringify(appState);
-  //   this.setState({
-  //     isLoggedIn: false,
-  //     user: {}
-  //   }, () => {
-  //     this.props.history.push("/login");
-  //   });
-  // };
-
   logoutUser = (email) => {
     let userPost = { "email": email }
     axios
@@ -152,8 +146,22 @@ class App extends React.Component {
           <Header user={this.state.user} />
         </React.Fragment>
         <Switch>
-          <Route exact path='/' component={MainPage}/>
-          <Route path='/playlist' component={Playlist} />
+          <Route exact path='/'
+            render={props => (
+              <MainPage {...props} 
+                user={this.state.user}
+                isLoggedIn={this.state.isLoggedIn}
+              />
+            )}
+          />
+          <Route path='/playlist'
+            render={props => (
+              <Playlist {...props} 
+                user={this.state.user}
+                isLoggedIn={this.state.isLoggedIn}
+              />
+            )}
+          />
           <Switch>
             <Route exact path="/area"
               render={props => (
@@ -191,4 +199,21 @@ class App extends React.Component {
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    isLogin: state.mainState.isLogin
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    isLogin: (bool) => {
+      dispatch(isLogin(bool))
+    },
+    noLogin: (bool) => {
+      dispatch(noLogin(bool))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

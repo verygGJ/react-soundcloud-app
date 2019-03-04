@@ -60,7 +60,7 @@ class TrackItem extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    myPlayListTracks: state.PlaylistState.myPlayListTracks
+    myPlayListTracks: state.mainState.myPlayListTracks
   }
 }
 
