@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 import PlayButton from '../../components/ui/PlayButton';
 import AddButton from '../../components/ui/AddButton';
@@ -16,13 +17,61 @@ class TrackItem extends React.Component {
   }
 
   addTrack = () => {
-    this.setState({ isAdded: true })
-    this.props.addToPlaylist(this.props.track, this.props.track.id);
+    if (this.props.isLogin) {
+      console.log('fetch add track')
+      let trackPost = { "track": this.props.track, "id": this.props.track.id }
+      axios
+        .post("http://localhost:8000/api/user/add", trackPost)
+        .then(response => {
+          return response;
+        })
+        .then(json => {
+          if (json.data.success) {
+
+            let trackState = { track: this.props.track, id: this.props.track.id };
+            localStorage["trackState"] = JSON.stringify(trackState);
+
+            this.setState({ isAdded: true })
+            this.props.addToPlaylist(trackState.track, trackState.id);
+
+          } else alert("Failed Add to Playlist!");
+        })
+        .catch(error => { console.log(`An Error Occured! ${error}`) });
+    } else {
+      console.log('local add track')
+      this.setState({ isAdded: true })
+      this.props.addToPlaylist(this.props.track, this.props.track.id);
+    }
   }
 
   removeTrack = () => {
-    this.setState({ isAdded: false })
-    this.props.removeInPlaylist(this.props.track, this.props.track.id);
+    if (this.props.isLogin) {
+      console.log('fetch remove track')
+
+      let trackPost = { "track": this.props.track, "id": this.props.track.id }
+
+      axios
+        .post("http://localhost:8000/api/user/remove", trackPost)
+        .then(response => {
+          return response;
+        })
+        .then(json => {
+          if (json.data.success) {
+
+            let trackState = { track: this.props.track, id: this.props.track.id };
+            localStorage["trackState"] = JSON.stringify(trackState);
+            
+            this.setState({ isAdded: false })
+            this.props.removeInPlaylist(trackState.track, trackState.id);
+
+          } else alert("Failed Remove track in Playlist!");
+        })
+        .catch(error => { console.log(`An Error Occured! ${error}`) });
+    } else {
+      console.log('local remove track')
+      this.setState({ isAdded: false })
+      this.props.removeInPlaylist(this.props.track, this.props.track.id);
+    }
   }
 
   render() {
@@ -60,7 +109,9 @@ class TrackItem extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    myPlayListTracks: state.mainState.myPlayListTracks
+    myPlayListTracks: state.mainState.myPlayListTracks,
+    isLogin: state.mainState.isLogin,
+    user: state.mainState.user
   }
 }
 

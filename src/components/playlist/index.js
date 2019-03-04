@@ -27,7 +27,8 @@ class Playlist extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    myPlayListTracks: state.playListState.myPlayListTracks
+    myPlayListTracks: state.playListState.myPlayListTracks,
+    isLogin: state.mainState.isLogin
   }
 }
 
