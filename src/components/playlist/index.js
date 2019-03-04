@@ -1,11 +1,11 @@
 import React from 'react';
 import TrackList from "../home/TrackList";
-
 import { connect } from "react-redux";
 
 class Playlist extends React.Component {
   state = {
     isAdded: true,
+    userPlaylist: []
   }
 
   render() {
@@ -27,7 +27,8 @@ class Playlist extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    myPlayListTracks: state.PlaylistState.myPlayListTracks
+    myPlayListTracks: state.playListState.myPlayListTracks,
+    isLogin: state.mainState.isLogin
   }
 }
 

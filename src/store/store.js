@@ -1,9 +1,32 @@
 const initialState = {
-  myPlayListTracks: [],
-  isLogin: false
+  isLogin: false,
+  user: {},
+  errors: {
+    errorStatus: false,
+    errorText: '',
+    errorFields: []
+  }
 }
 
-export function PlaylistState(state = initialState, action) {
+const playList = {
+  myPlayListTracks: [],
+}
+
+export function mainState(state = initialState, action) {
+  switch (action.type) {
+    case 'IS_LOGIN':
+      return { 
+        isLogin: action.payload,
+        user: action.user,
+        errors: action.errors
+      }
+
+    default:
+      return state;
+  }
+}
+
+export function playListState(state = playList, action) {
   switch (action.type) {
     case 'ADD_TO_PLAYLIST':
       let newArr = [];
