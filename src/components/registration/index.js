@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 class Register extends React.Component {
   state = {
@@ -18,16 +19,16 @@ class Register extends React.Component {
   };
 
   render() {
-    let errorText = this.props.errors ? <p className="error">{this.props.textError}</p> : '';
+    let errorText = this.props.errors.errorText ? <p className="error">{this.props.errors.errorText}</p> : '';
     
-    let errorName = this.props.errorsFields && this.props.errorsFields.length > 0 ? 
-                    this.props.errorsFields.indexOf('name') !== -1 : '';
+    let errorName = this.props.errors.errorFields && this.props.errors.errorFields.length > 0 ? 
+                    this.props.errors.errorFields.indexOf('name') !== -1 : '';
 
-    let errorEmail = this.props.errorsFields && this.props.errorsFields.length > 0 ? 
-                     this.props.errorsFields.indexOf('email') !== -1 : '';
+    let errorEmail = this.props.errors.errorFields && this.props.errors.errorFields.length > 0 ? 
+                     this.props.errors.errorFields.indexOf('email') !== -1 : '';
 
-    let errorPassword = this.props.errorsFields && this.props.errorsFields.length > 0 ? 
-                        this.props.errorsFields.indexOf('password') !== -1 : '';
+    let errorPassword = this.props.errors.errorFields && this.props.errors.errorFields.length > 0 ? 
+                        this.props.errors.errorFields.indexOf('password') !== -1 : '';
     
     return (
       <div id="main">
@@ -73,4 +74,12 @@ class Register extends React.Component {
 
 };
 
-export default Register;
+function mapStateToProps(state) {
+  return {
+    isLogin: state.mainState.isLogin,
+    user: state.mainState.user,
+    errors: state.mainState.errors
+  }
+}
+
+export default connect(mapStateToProps)(Register);

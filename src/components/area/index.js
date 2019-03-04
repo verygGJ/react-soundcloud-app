@@ -1,28 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 
-export default class Area extends React.Component {
-  // state = {
-  //   token: JSON.parse(localStorage["appState"]).user.auth_token,
-  //   users: []
-  // };
-
-  // componentDidMount() {
-  //   axios
-  //     .get(`http://localhost:8000/api/users/list?token=${this.state.token}`)
-  //     .then(response => {
-  //       console.log(response);
-  //       return response;
-  //     })
-  //     .then(json => {
-  //       if (json.data.success) {
-  //         this.setState({ users: json.data.data });
-  //         //alert("Login Successful!");
-  //       } else alert("Login Failed!");
-  //     })
-  //     .catch(error => {
-  //       alert(`An Error Occured! ${error}`);
-  //     });
-  // }
+class Area extends React.Component {
 
   logout = (e) => {
     e.preventDefault();
@@ -31,7 +10,7 @@ export default class Area extends React.Component {
 
   render() {
 
-    if (!this.props.isLoggedIn) {
+    if (!this.props.isLogin) {
       this.props.history.push("/login");
     }
 
@@ -43,3 +22,12 @@ export default class Area extends React.Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    isLogin: state.mainState.isLogin,
+    user: state.mainState.user
+  }
+}
+
+export default connect(mapStateToProps)(Area);

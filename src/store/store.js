@@ -1,5 +1,11 @@
 const initialState = {
-  isLogin: false
+  isLogin: false,
+  user: {},
+  errors: {
+    errorStatus: false,
+    errorText: '',
+    errorFields: []
+  }
 }
 
 const playList = {
@@ -9,10 +15,11 @@ const playList = {
 export function mainState(state = initialState, action) {
   switch (action.type) {
     case 'IS_LOGIN':
-      return { isLogin: true }
-
-    case 'NO_LOGIN':
-      return { isLogin: false }
+      return { 
+        isLogin: action.payload,
+        user: action.user,
+        errors: action.errors
+      }
 
     default:
       return state;

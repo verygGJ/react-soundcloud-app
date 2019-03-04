@@ -10,16 +10,9 @@ import Login from './components/login/index';
 import Register from './components/registration/index';
 
 import { connect } from "react-redux";
-import { isLogin, noLogin } from './store/actions';
+import { isLogin } from './store/actions';
 
 class App extends React.Component {
-  state = {
-    isLoggedIn: false,
-    user: {},
-    errors: false,
-    textError: '',
-    errorsFields: []
-  };
 
   loginUser = (email, password) => {
     let userPost = { "email": email, "password": password }
@@ -36,30 +29,27 @@ class App extends React.Component {
             email: json.data.data.email,
           };
 
-          let appState = { isLoggedIn: true, user: userData };
+          let errorsData = {
+            errorStatus: false,
+            errorText: '',
+            errorFields: []
+          }
+
+          let appState = { isLoggedIn: true, user: userData, errors: errorsData };
           localStorage["appState"] = JSON.stringify(appState);
 
-          this.setState({
-            isLoggedIn: appState.isLoggedIn,
-            user: appState.user,
-            errors: false
-          }, () => {
-            this.props.history.push("/area");
-          });
-
-          this.props.isLogin(true)
-
-          console.log(this.props.isLogin())
+          this.props.isLogin(appState.isLoggedIn, appState.user, appState.errors)
+          this.props.history.push("/area");
 
         } else {
 
-          this.props.noLogin(true)
+          let errorsData = {
+            errorStatus: true,
+            errorText: json.data.error,
+            errorFields: json.data.fields
+          }
 
-          this.setState({
-            errors: true,
-            textError: json.data.error,
-            errorsFields: json.data.fields
-          })
+          this.props.isLogin(false, {}, errorsData)
         }
 
       })
@@ -83,20 +73,26 @@ class App extends React.Component {
             email: json.data.data.email,
           };
 
-          let appState = { isLoggedIn: true, user: userData };
+          let errorsData = {
+            errorStatus: false,
+            errorText: '',
+            errorFields: []
+          }
+
+          let appState = { isLoggedIn: true, user: userData, errors: errorsData };
           localStorage["appState"] = JSON.stringify(appState);
 
-          this.setState({
-            isLoggedIn: appState.isLoggedIn,
-            user: appState.user,
-          });
+          this.props.isLogin(appState.isLoggedIn, appState.user, appState.errors)
+          this.props.history.push("/area");
 
         } else {
-          this.setState({
-            errors: true,
-            textError: json.data.error,
-            errorsFields: json.data.fields
-          })
+          let errorsData = {
+            errorStatus: true,
+            errorText: json.data.error,
+            errorFields: json.data.fields
+          }
+
+          this.props.isLogin(false, {}, errorsData)
         }
       })
       .catch(error => {
@@ -114,15 +110,18 @@ class App extends React.Component {
       .then(json => {
         if (json.data.success) {
 
-          let appState = { isLoggedIn: false, user: {} };
+          let errorsData = {
+            errorStatus: false,
+            errorText: '',
+            errorFields: []
+          }
+
+          let appState = { isLoggedIn: false, user: {}, errors: errorsData };
           localStorage["appState"] = JSON.stringify(appState);
 
-          this.setState({
-            isLoggedIn: appState.isLoggedIn,
-            user: appState.user
-          }, () => {
-            this.props.history.push("/login");
-          });
+          this.props.isLogin(appState.isLoggedIn, appState.user, appState.errors)
+          this.props.history.push("/login");
+
         } else alert("Logout Failed!");
       })
       .catch(error => { console.log(`An Error Occured! ${error}`) });
@@ -132,10 +131,7 @@ class App extends React.Component {
     let state = localStorage["appState"];
     if (state) {
       let AppState = JSON.parse(state);
-      this.setState({ 
-        isLoggedIn: AppState.isLoggedIn, 
-        user: AppState.user
-      });
+      this.props.isLogin(AppState.isLoggedIn, AppState.user, AppState.errors)
     }
   }
 
@@ -143,22 +139,18 @@ class App extends React.Component {
     return (
       <div className="container">
         <React.Fragment>
-          <Header user={this.state.user} />
+          <Header />
         </React.Fragment>
         <Switch>
           <Route exact path='/'
             render={props => (
               <MainPage {...props} 
-                user={this.state.user}
-                isLoggedIn={this.state.isLoggedIn}
               />
             )}
           />
           <Route path='/playlist'
             render={props => (
               <Playlist {...props} 
-                user={this.state.user}
-                isLoggedIn={this.state.isLoggedIn}
               />
             )}
           />
@@ -167,18 +159,13 @@ class App extends React.Component {
               render={props => (
                 <Area {...props} 
                   logoutUser={this.logoutUser} 
-                  isLoggedIn={this.state.isLoggedIn} 
-                  user={this.state.user}
                 />
               )}
             />
             <Route path="/login"
               render={props => (
                 <Login {...props} 
-                  loginUser={this.loginUser} 
-                  errors={this.state.errors} 
-                  textError={this.state.textError} 
-                  errorsFields={this.state.errorsFields}
+                  loginUser={this.loginUser}
                 /> 
               )}
             />
@@ -186,9 +173,6 @@ class App extends React.Component {
               render={props => (
                 <Register {...props} 
                   registerUser={this.registerUser} 
-                  errors={this.state.errors} 
-                  textError={this.state.textError} 
-                  errorsFields={this.state.errorsFields}
                 />
               )}
             />
@@ -201,17 +185,16 @@ class App extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    isLogin: state.mainState.isLogin
+    isLogin: state.mainState.isLogin,
+    user: state.mainState.user,
+    errors: state.mainState.errors
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    isLogin: (bool) => {
-      dispatch(isLogin(bool))
-    },
-    noLogin: (bool) => {
-      dispatch(noLogin(bool))
+    isLogin: (bool, user, errors) => {
+      dispatch(isLogin(bool, user, errors))
     }
   }
 }

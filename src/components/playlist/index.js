@@ -1,6 +1,5 @@
 import React from 'react';
 import TrackList from "../home/TrackList";
-
 import { connect } from "react-redux";
 
 class Playlist extends React.Component {
@@ -8,10 +7,6 @@ class Playlist extends React.Component {
     isAdded: true,
     userPlaylist: []
   }
-
-  // componentDidMount() {
-  //   console.log(this.props.isLoggedIn)
-  // }
 
   render() {
 
@@ -32,7 +27,7 @@ class Playlist extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    myPlayListTracks: state.mainState.myPlayListTracks
+    myPlayListTracks: state.playListState.myPlayListTracks
   }
 }
 
