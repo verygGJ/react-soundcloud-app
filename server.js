@@ -9,6 +9,7 @@ const MongoStore = require('connect-mongo')(session);
 const SESSION_SECRET = 'r8Vn5jEtU7cGw1RIN36LRxssCnCwgTsmrcP2LRMbwP2';
 
 mongoose.connect('mongodb://localhost:27017/soundcloud', { useCreateIndex: true, useNewUrlParser: true });
+mongoose.set('useFindAndModify', false);
 
 app.use(
     session({

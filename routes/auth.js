@@ -125,4 +125,49 @@ router.post('/logout', (req, res) => {
   }
 });
 
+// Add track
+router.post('/add', (req, res) => {
+  const email = req.session.userEmail;
+  const playlist = {
+    title: req.body.track.title,
+    image: req.body.track.artwork_url,
+    link: req.body.track.stream_url
+  };
+
+  models.Track.findOne({
+    email
+  }, (err, find) => {
+    if (err) return console.log(err);
+
+    if (find) {
+      models.Track.updateOne(
+      {
+        email
+      },
+      {
+        $push: {
+          playlist
+        }
+      }, (error, done) => {
+        if (error) return console.log(error);
+
+        if (done) {
+          res.json({
+            success: true
+          });
+        }
+      });
+    } else {
+      models.Track.create({
+        email,
+        playlist
+      });
+
+      res.json({
+        success: true
+      });
+    }
+
+  });
+});
 module.exports = router;
