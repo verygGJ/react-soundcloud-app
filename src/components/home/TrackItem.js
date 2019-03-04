@@ -20,6 +20,7 @@ class TrackItem extends React.Component {
     if (this.props.isLogin) {
       console.log('fetch add track')
       let trackPost = { "track": this.props.track, "id": this.props.track.id }
+      
       axios
         .post("http://localhost:8000/api/user/add", trackPost)
         .then(response => {
@@ -47,7 +48,6 @@ class TrackItem extends React.Component {
   removeTrack = () => {
     if (this.props.isLogin) {
       console.log('fetch remove track')
-
       let trackPost = { "track": this.props.track, "id": this.props.track.id }
 
       axios

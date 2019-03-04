@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import './index.scss';
 
 class Area extends React.Component {
 
@@ -17,7 +18,8 @@ class Area extends React.Component {
     return (
       <div className="area">
         <h2>Welcome {this.props.user.name}</h2>
-        <button onClick={this.logout} >Logout{" "}</button>
+        <p>Now you can create your own unique playlist</p>
+        <button className="logout-btn" onClick={this.logout} >Logout{" "}</button>
       </div>
     );
   }
