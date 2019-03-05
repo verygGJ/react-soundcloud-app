@@ -6,22 +6,23 @@ import { connect } from "react-redux";
 class Playlist extends React.Component {
   state = {
     isAdded: true,
-    userPlaylist: this.props.myPlayListTracks
+    userPlaylist: []
   }
 
   componentDidMount() {
     if (this.props.isLogin) {
-      console.log('fetch user tacks')
       axios
         .post("http://localhost:8000/api/user/tracks")
         .then(response => {
           return response;
         })
         .then(json => {
-          if (json.data.success) {
+          console.log(json.data.playlist)
+
+          if (json.data.playlist) {
             // let playlistState = { playlist: json.data.data.playlist };
             // localStorage["playlistState"] = JSON.stringify(playlistState);
-            this.setState({ userPlaylist: json.data.data.playlist })
+            this.setState({ userPlaylist: json.data.playlist })
           } else {
             this.setState({ userPlaylist: [] })
             alert("Failed load tracks")
