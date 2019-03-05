@@ -145,8 +145,8 @@ router.post('/add', (req, res) => {
   const playlist = {
     id: req.body.track.id,
     title: req.body.track.title,
-    image: req.body.track.artwork_url,
-    link: req.body.track.stream_url
+    artwork_url: req.body.track.artwork_url,
+    stream_url: req.body.track.stream_url
   };
 
   models.Track.findOne({
@@ -155,8 +155,7 @@ router.post('/add', (req, res) => {
     if (err) return console.log(err);
 
     if (find) {
-      models.Track.updateOne(
-      {
+      models.Track.updateOne({
         email
       },
       {

@@ -13,10 +13,10 @@ const track = new Schema({
       title: {
         type: String
       },
-      image: {
+      artwork_url: {
         type: String
       },
-      link: {
+      stream_url: {
         type: String
       }
     }
