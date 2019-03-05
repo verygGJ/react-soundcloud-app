@@ -7,9 +7,9 @@ const SearchForm = ({ fetchTracks, searchTrack }) => {
         className="search-form__input" 
         type="text" 
         onChange={searchTrack} 
-        placeholder="Введите название исполнителя или трека"
+        placeholder="Enter the name of the artist or track"
       />
-      <button className="search-form__button">Поиск</button>
+      <button className="search-form__button">Search</button>
     </form>
   )
 }

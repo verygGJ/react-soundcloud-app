@@ -18,26 +18,22 @@ class Playlist extends React.Component {
         })
         .then(json => {
           console.log(json.data.playlist)
-
           if (json.data.playlist) {
-            // let playlistState = { playlist: json.data.data.playlist };
-            // localStorage["playlistState"] = JSON.stringify(playlistState);
             this.setState({ userPlaylist: json.data.playlist })
           } else {
             this.setState({ userPlaylist: [] })
-            alert("Failed load tracks")
+            console.log("Failed load tracks")
           };
         })
         .catch(error => { console.log(`An Error Occured! ${error}`) });
     } else {
-      console.log('load local tracks')
       this.setState({ userPlaylist: this.props.myPlayListTracks })
     }
   }
 
   render() {
 
-    if (this.state.userPlaylist.length === 0) return <div className="no-tracks">В вашем плейлисте нет добавленых треков</div>
+    if (this.state.userPlaylist.length === 0) return <div className="no-tracks">There are no tracks added to your playlist.</div>
 
     return (
       <div className="playlist-page">

@@ -1,9 +1,13 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from "react-redux";
+import _ from 'lodash';
+import axios from 'axios';
+
 import SearchForm from './SearchForm';
 import TrackList from './TrackList';
 import loadingImage from '../ui/loading.gif';
-
 import { clientId } from '../../helpers/api-key';
+
 
 class MainPage extends Component {
   state = {
@@ -12,6 +16,28 @@ class MainPage extends Component {
     isAdded: false,
     hideElement: false,
     loading: false
+  }
+
+  componentDidMount() {
+    if (this.props.isLogin) {
+      axios
+        .post("http://localhost:8000/api/user/tracks")
+        .then(response => {
+          return response;
+        })
+        .then(json => {
+          console.log(json.data.playlist)
+          if (json.data.playlist) {
+            this.setState({ tracks: json.data.playlist })
+          } else {
+            this.setState({ tracks: [] })
+            console.log("Failed load tracks")
+          };
+        })
+        .catch(error => { console.log(`An Error Occured! ${error}`) });
+    } else {
+      this.setState({ tracks: this.props.myPlayListTracks })
+    }
   }
 
   searchTrack = (e) => {
@@ -26,8 +52,10 @@ class MainPage extends Component {
       .then(response => response.json())
       .then((data) => {
         if (data.length > 0) {
+
+          let filteredArr = _.differenceWith(data, this.props.myPlayListTracks, _.isEqual);
           this.setState({
-            tracks: data,
+            tracks: filteredArr,
             loading: false
           });
         } else {
@@ -37,9 +65,7 @@ class MainPage extends Component {
           })
         }
       })
-      .catch(err => {
-        console.log("Error Reading data " + err);
-      });
+      .catch(err => { console.log("Error Reading data " + err); });
   }
 
   render() {
@@ -59,4 +85,11 @@ class MainPage extends Component {
   }
 }
 
-export default MainPage;
+function mapStateToProps(state) {
+  return {
+    isLogin: state.mainState.isLogin,
+    myPlayListTracks: state.playListState.myPlayListTracks,
+  }
+}
+
+export default connect(mapStateToProps)(MainPage);

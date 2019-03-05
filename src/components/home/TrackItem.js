@@ -18,9 +18,7 @@ class TrackItem extends React.Component {
 
   addTrack = () => {
     if (this.props.isLogin) {
-      console.log('fetch add track')
-      let trackPost = { "track": this.props.track, "id": this.props.track.id }
-      
+      let trackPost = { "track": this.props.track, "id": this.props.track.id } 
       axios
         .post("http://localhost:8000/api/user/add", trackPost)
         .then(response => {
@@ -28,10 +26,8 @@ class TrackItem extends React.Component {
         })
         .then(json => {
           if (json.data.success) {
-
             let trackState = { track: this.props.track, id: this.props.track.id };
             localStorage["trackState"] = JSON.stringify(trackState);
-
             this.setState({ isAdded: true })
             this.props.addToPlaylist(trackState.track, trackState.id);
 
@@ -39,7 +35,6 @@ class TrackItem extends React.Component {
         })
         .catch(error => { console.log(`An Error Occured! ${error}`) });
     } else {
-      console.log('local add track')
       this.setState({ isAdded: true })
       this.props.addToPlaylist(this.props.track, this.props.track.id);
     }
@@ -109,7 +104,7 @@ class TrackItem extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    myPlayListTracks: state.mainState.myPlayListTracks,
+    myPlayListTracks: state.playListState.myPlayListTracks,
     isLogin: state.mainState.isLogin,
     user: state.mainState.user
   }
