@@ -5,17 +5,22 @@ const track = new Schema({
   email: {
     type: String
   },
-  playlist: [{
-    title: {
-      type: String
-    },
-    image: {
-      type: String
-    },
-    link: {
-      type: String
+  playlist: [
+    {
+      id: {
+        type: Number
+      },
+      title: {
+        type: String
+      },
+      image: {
+        type: String
+      },
+      link: {
+        type: String
+      }
     }
-  }]
+  ]
 });
 
 module.exports = mongoose.model('Track', track);

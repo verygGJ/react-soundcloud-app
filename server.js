@@ -34,4 +34,4 @@ app.get('/', (req, res) => {
     res.send('index');
 });
 
-app.use('/api/user', routes.auth);
+app.use('/api/user', routes.account);

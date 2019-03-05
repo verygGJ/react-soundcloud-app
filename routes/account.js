@@ -125,10 +125,25 @@ router.post('/logout', (req, res) => {
   }
 });
 
+// Tracks
+router.post('/tracks', (req, res) => {
+  const email = req.session.userEmail;
+
+  models.Track.findOne({
+    email
+  })
+  .then(track => {
+    res.json({
+      playlist: track.playlist
+    });
+  });
+});
+
 // Add track
 router.post('/add', (req, res) => {
   const email = req.session.userEmail;
   const playlist = {
+    id: req.body.track.id,
     title: req.body.track.title,
     image: req.body.track.artwork_url,
     link: req.body.track.stream_url
@@ -167,7 +182,36 @@ router.post('/add', (req, res) => {
         success: true
       });
     }
-
   });
 });
+
+// Remove track
+router.post('/remove', (req, res) => {
+  const email = req.session.userEmail;
+  const trackId = req.body.track.id;
+
+  models.Track.findOneAndUpdate({
+    email
+  }, {
+    $pull: {
+      playlist: {
+        id: trackId
+      }
+    }
+  }, (err, result) => {
+    if (err) {
+      res.json({
+        success: false
+      })
+      return console.log(err)
+    };
+
+    if (result) {
+      res.json({
+        success: true
+      })
+    }
+  });
+});
+
 module.exports = router;
