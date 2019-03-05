@@ -7,8 +7,9 @@ import { BrowserRouter, withRouter } from "react-router-dom";
 
 // Redux
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './store/reducers';
+import thunk from 'redux-thunk';
 
 // import { playListState } from './store/store';
 // const persistedState = localStorage.getItem('reduxState') ? 
@@ -18,7 +19,7 @@ import rootReducer from './store/reducers';
 //   localStorage.setItem('reduxState', JSON.stringify(store.getState(playListState)))
 // })
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunk));
 const AppContainer = withRouter(props => <App {...props} />);
 
 ReactDOM.render(

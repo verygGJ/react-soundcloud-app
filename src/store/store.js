@@ -28,6 +28,9 @@ export function mainState(state = initialState, action) {
 
 export function playListState(state = playList, action) {
   switch (action.type) {
+    case 'FETCH_TRACKS_SUCSSES':
+      return { myPlayListTracks: action.tracks }
+
     case 'ADD_TO_PLAYLIST':
       let newArr = [];
       newArr.push(...state.myPlayListTracks, action.payload)

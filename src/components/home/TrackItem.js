@@ -1,10 +1,15 @@
 import React from 'react';
-import axios from 'axios';
+import { connect } from "react-redux";
 
 import PlayButton from '../../components/ui/PlayButton';
 import AddButton from '../../components/ui/AddButton';
-import { addToPlaylist, removeInPlaylist } from '../../store/actions';
-import { connect } from "react-redux";
+import { 
+  addToPlaylist, 
+  removeInPlaylist,
+  addToPlaylistAction,
+  removeInPlaylistAction
+} from '../../store/actions';
+
 
 class TrackItem extends React.Component {
   state = {
@@ -18,54 +23,21 @@ class TrackItem extends React.Component {
 
   addTrack = () => {
     if (this.props.isLogin) {
-      let trackPost = { "track": this.props.track, "id": this.props.track.id } 
-      axios
-        .post("http://localhost:8000/api/user/add", trackPost)
-        .then(response => {
-          return response;
-        })
-        .then(json => {
-          if (json.data.success) {
-            let trackState = { track: this.props.track, id: this.props.track.id };
-            localStorage["trackState"] = JSON.stringify(trackState);
-            this.setState({ isAdded: true })
-            this.props.addToPlaylist(trackState.track, trackState.id);
-
-          } else alert("Failed Add to Playlist!");
-        })
-        .catch(error => { console.log(`An Error Occured! ${error}`) });
+      this.setState({ isAdded: true })
+      this.props.addToPlaylist(this.props.track, this.props.track.id)
     } else {
       this.setState({ isAdded: true })
-      this.props.addToPlaylist(this.props.track, this.props.track.id);
+      this.props.addToPlaylistAction(this.props.track, this.props.track.id)
     }
   }
 
   removeTrack = () => {
     if (this.props.isLogin) {
-      console.log('fetch remove track')
-      let trackPost = { "track": this.props.track, "id": this.props.track.id }
-
-      axios
-        .post("http://localhost:8000/api/user/remove", trackPost)
-        .then(response => {
-          return response;
-        })
-        .then(json => {
-          if (json.data.success) {
-
-            let trackState = { track: this.props.track, id: this.props.track.id };
-            localStorage["trackState"] = JSON.stringify(trackState);
-            
-            this.setState({ isAdded: false })
-            this.props.removeInPlaylist(trackState.track, trackState.id);
-
-          } else alert("Failed Remove track in Playlist!");
-        })
-        .catch(error => { console.log(`An Error Occured! ${error}`) });
-    } else {
-      console.log('local remove track')
       this.setState({ isAdded: false })
-      this.props.removeInPlaylist(this.props.track, this.props.track.id);
+      this.props.removeInPlaylist(this.props.track, this.props.track.id)
+    } else {
+      this.setState({ isAdded: false })
+      this.props.removeInPlaylistAction(this.props.track, this.props.track.id)
     }
   }
 
@@ -84,7 +56,6 @@ class TrackItem extends React.Component {
         </div>
         <div className="track-item__info">
           <div className="track-item__title">{track.title}</div>
-          
           
           {
             !this.state.isAdded ? 
@@ -117,6 +88,12 @@ function mapDispatchToProps(dispatch) {
     },
     removeInPlaylist: (track, id) => {
       dispatch(removeInPlaylist(track, id))
+    },
+    addToPlaylistAction: (track, id) => {
+      dispatch(addToPlaylistAction(track, id))
+    },
+    removeInPlaylistAction: (track, id) => {
+      dispatch(removeInPlaylistAction(track, id))
     }
   }
 }

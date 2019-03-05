@@ -10,7 +10,7 @@ import Login from './components/login/index';
 import Register from './components/registration/index';
 
 import { connect } from "react-redux";
-import { isLogin } from './store/actions';
+import { isLogin, fethcTracks } from './store/actions';
 
 class App extends React.Component {
 
@@ -39,7 +39,8 @@ class App extends React.Component {
           localStorage["appState"] = JSON.stringify(appState);
 
           this.props.isLogin(appState.isLoggedIn, appState.user, appState.errors)
-          this.props.history.push("/area");
+          this.props.history.push("/area")
+          this.props.fethcTracks()
 
         } else {
 
@@ -83,7 +84,8 @@ class App extends React.Component {
           localStorage["appState"] = JSON.stringify(appState);
 
           this.props.isLogin(appState.isLoggedIn, appState.user, appState.errors)
-          this.props.history.push("/area");
+          this.props.history.push("/area")
+          this.props.fethcTracks()
 
         } else {
           let errorsData = {
@@ -128,6 +130,9 @@ class App extends React.Component {
   };
 
   componentDidMount() {
+    if (this.props.isLogin) {
+      this.props.fethcTracks()
+    }
     let state = localStorage["appState"];
     if (state) {
       let AppState = JSON.parse(state);
@@ -195,6 +200,9 @@ function mapDispatchToProps(dispatch) {
   return {
     isLogin: (bool, user, errors) => {
       dispatch(isLogin(bool, user, errors))
+    },
+    fethcTracks: () => {
+      dispatch(fethcTracks())
     }
   }
 }
