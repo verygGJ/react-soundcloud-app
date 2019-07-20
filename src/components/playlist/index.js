@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from "react-redux";
-
-import TrackList from "../home/TrackList";
+import { Route, Switch } from 'react-router-dom';
+import PlaylistList from './PlaylistList/index';
+import PlaylistSingle from './PlaylistSingle/index';
 
 class Playlist extends React.Component {
   state = {
@@ -9,15 +10,21 @@ class Playlist extends React.Component {
   }
 
   render() {
-    if (this.props.myPlayListTracks.length === 0) return <div className="no-tracks">There are no tracks added to your playlist.</div>
-
     return (
-      <div className="playlist-page">
-        <TrackList 
-          isAdded={this.state.isAdded} 
-          tracks={this.props.myPlayListTracks} 
-        />
-      </div>
+      <React.Fragment>
+        <Switch>
+          <Route exact path="/playlist"
+            render={props => (
+              <PlaylistList {...props} />
+            )}
+          />
+          <Route exact path="/playlist/:name"
+            render={props => (
+              <PlaylistSingle {...props} />
+            )}
+          />
+        </Switch>
+      </React.Fragment>
     )
   }
 }

@@ -102,7 +102,7 @@ class TrackList extends React.Component {
 
 
   render() {
-    const {tracks} = this.props;
+    const { tracks, playListPage } = this.props;
 
     if (tracks === false) return <div className="no-tracks">По данному запросу ничего не найдено</div>
 
@@ -135,6 +135,7 @@ class TrackList extends React.Component {
               track={track} 
               key={id} 
               addCurrentTrack={this.addCurrentTrack} 
+              playListPage={playListPage}
             />
           ))}
         </div>

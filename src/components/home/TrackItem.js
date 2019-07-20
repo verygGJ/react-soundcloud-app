@@ -21,13 +21,14 @@ class TrackItem extends React.Component {
     this.props.addCurrentTrack(tracksInfo)
   }
 
-  addTrack = () => {
-    if (this.props.isLogin) {
+  addTrack = (playlistName) => {
+    const { isLogin, track } = this.props
+    if (isLogin) {
       this.setState({ isAdded: true })
-      this.props.addToPlaylist(this.props.track, this.props.track.id)
+      this.props.addToPlaylist(track, track.id)
     } else {
       this.setState({ isAdded: true })
-      this.props.addToPlaylistAction(this.props.track, this.props.track.id)
+      this.props.addToPlaylistAction(track, track.id, playlistName)
     }
   }
 
@@ -42,7 +43,7 @@ class TrackItem extends React.Component {
   }
 
   render() {
-    const { track } = this.props;
+    const { track, playListPage } = this.props;
 
     return (
       <div className={!this.state.isAdded ? 'track-item hide' : 'track-item'} >
@@ -57,8 +58,7 @@ class TrackItem extends React.Component {
         <div className="track-item__info">
           <div className="track-item__title">{track.title}</div>
           
-          {
-            !this.state.isAdded ? 
+          {!this.state.isAdded ? 
             <div className="add-to-palylist" onClick={this.addTrack}>
               <AddButton />
             </div> :
@@ -66,7 +66,11 @@ class TrackItem extends React.Component {
               <AddButton />
             </div>
           }
-          
+          {!playListPage ? <ul className="added-to__list">
+              {this.props.myPlayLists.map((playlist, index) => (
+                <li key={index} onClick={() => this.addTrack(playlist.playlistName)} className="added-to__item" >{playlist.playlistName}</li>
+              ))}
+            </ul> : null}
         </div>
       </div>
     )
@@ -76,6 +80,7 @@ class TrackItem extends React.Component {
 function mapStateToProps(state) {
   return {
     myPlayListTracks: state.playListState.myPlayListTracks,
+    myPlayLists: state.playListState.myPlayLists,
     isLogin: state.mainState.isLogin,
     user: state.mainState.user
   }
@@ -89,11 +94,11 @@ function mapDispatchToProps(dispatch) {
     removeInPlaylist: (track, id) => {
       dispatch(removeInPlaylist(track, id))
     },
-    addToPlaylistAction: (track, id) => {
-      dispatch(addToPlaylistAction(track, id))
+    addToPlaylistAction: (track, id, playlistName) => {
+      dispatch(addToPlaylistAction(track, id, playlistName))
     },
-    removeInPlaylistAction: (track, id) => {
-      dispatch(removeInPlaylistAction(track, id))
+    removeInPlaylistAction: (track, id, playlistName) => {
+      dispatch(removeInPlaylistAction(track, id, playlistName))
     }
   }
 }

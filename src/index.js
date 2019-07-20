@@ -11,15 +11,15 @@ import { createStore, applyMiddleware } from 'redux';
 import rootReducer from './store/reducers';
 import thunk from 'redux-thunk';
 
-// import { playListState } from './store/store';
-// const persistedState = localStorage.getItem('reduxState') ? 
-//       JSON.parse(localStorage.getItem('reduxState')) : {}
-// const store = createStore(rootReducer, persistedState);
-// store.subscribe(()=> {
-//   localStorage.setItem('reduxState', JSON.stringify(store.getState(playListState)))
-// })
+import { playListState } from './store/store';
+const persistedState = localStorage.getItem('reduxState') ? 
+      JSON.parse(localStorage.getItem('reduxState')) : {}
+const store = createStore(rootReducer, persistedState, applyMiddleware(thunk));
+store.subscribe(()=> {
+  localStorage.setItem('reduxState', JSON.stringify(store.getState(playListState)))
+})
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+// const store = createStore(rootReducer, applyMiddleware(thunk));
 const AppContainer = withRouter(props => <App {...props} />);
 
 ReactDOM.render(

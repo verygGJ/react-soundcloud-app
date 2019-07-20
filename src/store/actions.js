@@ -4,6 +4,7 @@ const ADD_TO_PLAYLIST = "ADD_TO_PLAYLIST";
 const REMOVE_IN_PLAYLIST = "REMOVE_IN_PLAYLIST";
 const IS_LOGIN = "IS_LOGIN";
 const FETCH_TRACKS_SUCSSES = 'FETCH_TRACKS_SUCSSES';
+const CREATE_PLAYLIST = 'CREATE_PLAYLIST';
 
 
 export function isLogin(bool, user, errors) {
@@ -16,19 +17,20 @@ export function isLogin(bool, user, errors) {
 }
 
 
-export function addToPlaylistAction(track, id) {
+export function addToPlaylistAction(track, id, playlistName) {
   return {
     type: ADD_TO_PLAYLIST,
     payload: track,
-    id: id
+    id: id,
+    playlistName: playlistName
   }
 }
 
-export const addToPlaylist = (track, id) => dispatch => {
-  let trackPost = { "track": track, "id": id }
+export const addToPlaylist = (track, id, playlistName) => dispatch => {
+  let trackPost = { "track": track, "id": id, "playlistName": playlistName }
   axios.post("/api/user/add", trackPost)
     .then(() => {
-      dispatch(addToPlaylistAction(track, id))
+      dispatch(addToPlaylistAction(track, id, playlistName))
     })
     .catch((err) => {
       throw(err);
@@ -36,19 +38,20 @@ export const addToPlaylist = (track, id) => dispatch => {
 }
 
 
-export function removeInPlaylistAction(track, id) {
+export function removeInPlaylistAction(track, id, playlistName) {
   return {
     type: REMOVE_IN_PLAYLIST,
     payload: track,
-    id: id
+    id: id,
+    playlistName: playlistName
   }
 }
 
-export const removeInPlaylist = (track, id) => dispatch => {
-  let trackPost = { "track": track, "id": id }
+export const removeInPlaylist = (track, id, playlistName) => dispatch => {
+  let trackPost = { "track": track, "id": id, playlistName }
   axios.post("/api/user/remove", trackPost)
     .then(() => {
-      dispatch(removeInPlaylistAction(track, id))
+      dispatch(removeInPlaylistAction(track, id, playlistName))
     })
     .catch((err) => {
       throw(err);
@@ -71,4 +74,11 @@ export const fethcTracks = () => dispatch => {
     .catch((err) => {
       throw(err);
     })
+}
+
+export function cteateNewPlaylist(name) {
+  return {
+    type: CREATE_PLAYLIST,
+    payload: name
+  }
 }
