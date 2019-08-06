@@ -563,3 +563,30 @@ p.error {
   text-decoration: none;
   cursor: pointer;
 }
+
+.added-to__list {
+  min-width: 100px;
+  list-style: none;
+  margin: 0;
+  padding: 5px 10px;
+}
+
+.added-to__item {
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: .3s ease-in-out;
+}
+
+.ant-tooltip-inner {
+  background: #000;
+}
+
+.added-to__item:hover {
+  color: #535353;
+}
+
+.added-to__item:last-of-type {
+  margin-bottom: 0;
+}

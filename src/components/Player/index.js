@@ -1,9 +1,8 @@
-import React, {Fragment} from 'react';
-import AudioPlayer from './AudioPlayer';
-import TrackItem from './TrackItem';
+import React, { Fragment } from 'react';
+import AudioPlayer from '../home/AudioPlayer';
 import { clientId } from '../../helpers/api-key';
 
-class TrackList extends React.Component {
+class Player extends React.Component {
   state = {
     playingTrackUrl: '',
     playingTrackTitle: '',
@@ -99,12 +98,7 @@ class TrackList extends React.Component {
     }
   }
 
-
   render() {
-    const { tracks, playListPage, playListPageName } = this.props;
-
-    if (tracks === false) return <div className="no-tracks">По данному запросу ничего не найдено</div>
-
     return (
       <Fragment>
         <AudioPlayer 
@@ -127,18 +121,6 @@ class TrackList extends React.Component {
           volumeDown={this.volumeDown}
           currentVolume={this.state.currentVolume}
         />
-        <div className="tracks">
-          {tracks.map((track, id) => (
-            <TrackItem 
-              isAdded={this.props.isAdded} 
-              track={track} 
-              key={id} 
-              addCurrentTrack={this.addCurrentTrack} 
-              playListPage={playListPage}
-              playListPageName={playListPageName}
-            />
-          ))}
-        </div>
       </Fragment>
     )
   }
@@ -193,7 +175,6 @@ class TrackList extends React.Component {
     }
     this.setState({ currentVolume: this.playerElemnt.volume.toFixed(1) })
   }
-
 }
 
-export default TrackList;
+export default Player;

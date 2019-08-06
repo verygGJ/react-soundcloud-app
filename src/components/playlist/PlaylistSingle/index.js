@@ -18,6 +18,8 @@ class PlaylistSingle extends React.Component {
 
     if (!currentPlaylist || currentPlaylist.length === 0) return <div className="no-tracks">There are no tracks added to your playlist.</div>
 
+    console.log(currentPlaylist)
+
     return (
       <React.Fragment>
         <div className="playlist-page">
@@ -25,6 +27,7 @@ class PlaylistSingle extends React.Component {
             isAdded={this.state.isAdded} 
             tracks={currentPlaylist} 
             playListPage={playListPage}
+            playListPageName={this.props.match.params.name}
           />
         </div>
       </React.Fragment>

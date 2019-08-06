@@ -58,30 +58,13 @@ export function playListState(state = playList, action) {
       }
 
     case 'REMOVE_IN_PLAYLIST':
+      let currentPlaylist = state.myPlayLists.filter(item => item.playlistName === action.playlistName)       
+      let deleteTrack = currentPlaylist[0].tracks.filter(track => track.id !== action.id)
 
-        // let checkPlaylist = state.myPlayLists.filter(item => item.playlistName === action.playlistName) 
+      state.myPlayLists.filter(item => (item.playlistName === currentPlaylist[0].playlistName) 
+          ? item.tracks.splice(0, item.tracks.length, ...deleteTrack) 
+          : item.tracks)
 
-        console.log(state.myPlayLists)
-
-        // let deletedTrack;
-        // state.myPlayLists.forEach(track => {
-        //   if (track === action.payload) {
-        //     deletedTrack = track
-        //     return deletedTrack
-        //   } 
-        // })
-  
-        // state.myPlayLists.splice(state.myPlayLists.indexOf(deletedTrack),1)
-
-      // let deletedTrack;
-      // state.myPlayListTracks.forEach(track => {
-      //   if (track === action.payload) {
-      //     deletedTrack = track
-      //     return deletedTrack
-      //   } 
-      // })
-
-      // state.myPlayListTracks.splice(state.myPlayListTracks.indexOf(deletedTrack),1)
       return {
         ...state
       }

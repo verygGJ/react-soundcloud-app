@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
-
+import { Tooltip, Icon } from 'antd';
 import PlayButton from '../../components/ui/PlayButton';
 import AddButton from '../../components/ui/AddButton';
 import { 
@@ -13,40 +13,57 @@ import {
 
 class TrackItem extends React.Component {
   state = {
-    isAdded: this.props.isAdded
+    isAdded: this.props.isAdded,
+    inPlaylistName: ''
   }
 
   showTrack = () => {
-    const tracksInfo = this.props.track;
-    this.props.addCurrentTrack(tracksInfo)
+    const { track } = this.props
+    this.props.addCurrentTrack(track)
   }
 
   addTrack = (playlistName) => {
-    const { isLogin, track } = this.props
+    const { 
+      isLogin, 
+      addToPlaylist, 
+      addToPlaylistAction, 
+      track 
+    } = this.props
+
     if (isLogin) {
-      this.setState({ isAdded: true })
-      this.props.addToPlaylist(track, track.id)
+      this.setState({ isAdded: true, inPlaylistName: playlistName })
+      addToPlaylist(track, track.id)
     } else {
-      this.setState({ isAdded: true })
-      this.props.addToPlaylistAction(track, track.id, playlistName)
+      this.setState({ isAdded: true, inPlaylistName: playlistName })
+      addToPlaylistAction(track, track.id, playlistName)
     }
   }
 
-  removeTrack = () => {
-    if (this.props.isLogin) {
+  removeTrack = (playListPageName) => {
+    const { 
+      isLogin, 
+      removeInPlaylist, 
+      removeInPlaylistAction, 
+      track 
+    } = this.props
+    const { inPlaylistName } = this.state
+    const NameOfPlaylist = inPlaylistName || playListPageName
+
+    if (isLogin) {
       this.setState({ isAdded: false })
-      this.props.removeInPlaylist(this.props.track, this.props.track.id)
+      removeInPlaylist(track, track.id, NameOfPlaylist)
     } else {
       this.setState({ isAdded: false })
-      this.props.removeInPlaylistAction(this.props.track, this.props.track.id)
+      removeInPlaylistAction(track, track.id, NameOfPlaylist)
     }
   }
 
   render() {
-    const { track, playListPage } = this.props;
-
+    const { isAdded } = this.state;
+    const { track, myPlayLists, playListPage, playListPageName } = this.props;
+    
     return (
-      <div className={!this.state.isAdded ? 'track-item hide' : 'track-item'} >
+      <div className={!isAdded ? 'track-item hide' : 'track-item'} >
         <div className="track-item__image">
           <img src={track.artwork_url} width="50" height="50" alt="cover" />
           
@@ -58,19 +75,27 @@ class TrackItem extends React.Component {
         <div className="track-item__info">
           <div className="track-item__title">{track.title}</div>
           
-          {!this.state.isAdded ? 
-            <div className="add-to-palylist" onClick={this.addTrack}>
-              <AddButton />
-            </div> :
-            <div className="remove-to-palylist" onClick={this.removeTrack}>
-              <AddButton />
-            </div>
-          }
-          {!playListPage ? <ul className="added-to__list">
-              {this.props.myPlayLists.map((playlist, index) => (
-                <li key={index} onClick={() => this.addTrack(playlist.playlistName)} className="added-to__item" >{playlist.playlistName}</li>
-              ))}
-            </ul> : null}
+          {!playListPage ? (
+            !isAdded ? 
+              <Tooltip trigger="click" placement="rightTop" title={(
+                <ul className="added-to__list">
+                  {myPlayLists.map((playlist, index) => (
+                    <li key={index} onClick={() => this.addTrack(playlist.playlistName)} className="added-to__item" >{playlist.playlistName}</li>
+                  ))}
+                </ul>
+              )}>
+                <div className="add-to-palylist" >
+                  <AddButton className="add-to-palylist" />
+                </div>
+              </Tooltip> : 
+              <div className="remove-to-palylist" onClick={this.removeTrack}>
+                <Icon type="close" />
+              </div>
+          ) : 
+          <div className="remove-to-palylist" onClick={() => this.removeTrack(playListPageName)}>
+            <Icon type="close" />
+          </div>}
+          
         </div>
       </div>
     )
