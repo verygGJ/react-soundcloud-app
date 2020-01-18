@@ -590,3 +590,24 @@ p.error {
 .added-to__item:last-of-type {
   margin-bottom: 0;
 }
+#create-playlist {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+#create-playlist .form-block {
+  text-align: center;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 500;
+}
+#create-playlist .submit-button {
+  display: flex;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: #fff;
+  border-radius: 4px;
+  width: 300px;
+  margin: 0 auto;
+}
