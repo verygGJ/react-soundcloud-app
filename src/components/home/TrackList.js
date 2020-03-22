@@ -12,7 +12,8 @@ class TrackList extends React.Component {
     isRepeat: false,
     playingTracks: this.props.tracks,
     selectedIndex: 0,
-    currentVolume: '1.0'
+    currentVolume: '1.0',
+    currentSrc: null
   }
 
   addCurrentTrack = (tracksInfo) => {
@@ -34,7 +35,15 @@ class TrackList extends React.Component {
       playingTrackTitle: currentTrack.title,
       isPlaying: true
     })
-    this.setState({ playingTrackUrl: currentTrack.stream_url + clientId }, () => this.playerElemnt.play());
+
+    this.setState({ 
+      playingTrackUrl: currentTrack.stream_url + clientId
+    }, () => this.startingPlayTrack());
+  }
+
+  startingPlayTrack = () => {
+    this.setState({ currentSrc: this.playerElemnt.src });
+    this.playerElemnt.play()
   }
 
   togglePlay = () => {
@@ -125,6 +134,7 @@ class TrackList extends React.Component {
           handleRef={(handle) => { this.handle = handle }}
           volumeUp={this.volumeUp}
           volumeDown={this.volumeDown}
+          currentSrc={this.state.currentSrc}
           currentVolume={this.state.currentVolume}
         />
         <div className="tracks">

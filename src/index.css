@@ -24,7 +24,7 @@ code {
 .main-page {
   max-width: 1140px;
   width: 100%;
-  margin: 50px auto;
+  margin: 50px auto 150px;
 }
 
 .search-form {
@@ -610,4 +610,50 @@ p.error {
   border-radius: 4px;
   width: 300px;
   margin: 0 auto;
+}
+
+.download-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin-left: 15px;
+}
+.download-button svg {
+  fill: #fff;
+  width: 18px;
+  height: 18px;
+}
+
+.playlist-list {
+  max-width: 1200px;
+  width: 100%;
+  margin: 50px auto 50px;
+}
+.playlist-list__item {
+  margin-bottom: 10px;
+}
+
+.playlist-list__item a {
+  color: #fff;
+  font-size: 22px;
+  text-decoration: none;
+  transition: .3s ease-in-out;
+}
+
+.playlist-list__item a:hover {
+  opacity: 0.5;
+}
+
+@media only screen and (max-width: 767px) {
+  .tracks-player {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 20px;
+  }
+  .tracks-player__image {
+    display: none;
+  }
+  #timeline {
+    width: 100%;
+  }
 }
