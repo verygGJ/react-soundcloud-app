@@ -17,7 +17,7 @@
     "lodash": "^4.17.11",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.16",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
